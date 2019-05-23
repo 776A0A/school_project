@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 扫包，配置controller的扫描 ，@Controller表示在tomcat启动的时候，把这个类作为一个控制器加载到Spring的Bean工厂-->
+	<!-- base-package表示会扫描com.huiyou.controller目录下所有的包，一旦发现有个类上面加了类似于@Controller的注解，
+	在容器启动的时候系统就会把它加载到Spring的Bean工厂，并且对其实例化。 -->
+	<!-- 这也是为什么，我们只是写了Controller，但是从来没有在一个地方new这个Controller的原因，因为在Web容器启动的时候，
+	这个Controller已经被Spring加载到自己的Bean工厂里面去了。 -->
+	<context:component-scan base-package="com.huiyou.controller"></context:component-scan>
+	<!-- 开启注解模式驱动，配置注解的映射器和适配器 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!--配置视图解析器  -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 配置返回结果的前缀 -->
+		 <property name="prefix" value="/src/views/"></property>
+		<!-- 配置返回结果的后缀 -->
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 配置文件上的二进制流解析器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 指定文件上传过程中提交的数据库的编码 clob blob 流的编码 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!--文件上传的临时目录 -->
+		<property name="uploadTempDir" value="/upload"></property>
+		<!-- 文件上传的最大值 20M -->
+		<property name="maxUploadSize" value="21474836480"></property>
+	</bean> 
+
+
+	<!-- 静态文件处理 -->
+	<mvc:default-servlet-handler/>
+	<!-- <mvc:resources mapping="/resource/**" location="/WEB-INF/resource/" />   -->
+</beans>

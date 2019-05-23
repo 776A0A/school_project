@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 处理日志问题 -->
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	<typeAliases>
+		<!-- 别外优化,优化mapping内的实体类映射；如
+		<select id="login" parameterType ="com.huiyou.model.Admin" resultType = "com.huiyou.model.Admin">
+		可以写为
+		<select id="login" parameterType ="Admin" resultType = "Admin">
+		没有必须写第一种格式
+		-->
+		<package name="com.huiyou.model" />
+	</typeAliases>
+	<!-- 分页插件 -->
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+	</plugins>
+</configuration>
