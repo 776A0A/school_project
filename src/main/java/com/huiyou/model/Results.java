@@ -10,6 +10,7 @@ public class Results {
 	private String studentName;
 	private String className;
 	private String ids;
+	private Integer total;
 	public Integer getId() {
 		return id;
 	}
@@ -66,12 +67,17 @@ public class Results {
 	public void setIds(String ids) {
 		this.ids = ids;
 	}
+	
+	public Integer getTotal() {
+		return total;
+	}
+	public void setTotal(Integer total) {
+		this.total = total;
+	}
 	@Override
 	public String toString() {
 		return "Results [id=" + id + ", stuId=" + stuId + ", chinese=" + chinese + ", english=" + english + ", math="
 				+ math + ", classId=" + classId + ", studentName=" + studentName + ", className=" + className + ", ids="
-				+ ids + "]";
+				+ ids + ", total=" + total + "]";
 	}
-	
-	
 }

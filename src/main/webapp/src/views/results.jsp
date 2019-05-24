@@ -88,6 +88,15 @@
 						align: 'center'
 					},
 					{
+						field: 'total',
+						title: '总分',
+						sort : true,
+						align: 'center',
+						templet: function(data) {
+							return data.math + data.chinese + data.english;
+						}
+					},
+					{
 						field : 'edit',
 						title : '操作',
 						align : 'center',
@@ -126,6 +135,39 @@
 					}
 			    }
 			    
+			}); // table.on
+			
+			// 行内工具栏事件
+			table.on('tool(test)', function(obj){ // test是table原始容器的属性 lay-filter="对应的值"
+				  var data = obj.data; // 获得当前行数据
+				  var event = obj.event; // 获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+				  if (event === 'del') {
+					  layer.confirm('确认删除？', function(index){
+						  table.reload('resultsList', {
+								url : '${pageContext.request.contextPath}/results/delResults.action',
+								where : { id: data.id }
+							});
+					      layer.close(index);
+				    	});
+				  	} else if (event === 'edit') {
+				  		layer.prompt({
+				  			formType: 0,
+							value : data.className,
+							title : '请编辑：',
+							area : [ '800px', '350px' ]
+							//自定义文本域宽高
+							}, function( value, index, elem) {
+									table.reload('classList', {
+										url : '${pageContext.request.contextPath}/classes/addClass.action',
+										where : {
+											id : data.id,
+											className : value
+										}
+									});
+									layer.close(index);
+							}
+						);
+				  	}
 			}); // table.on
 			
 			// 动态渲染下拉框
