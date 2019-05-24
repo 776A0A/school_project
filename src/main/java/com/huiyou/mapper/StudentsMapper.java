@@ -7,4 +7,5 @@ import com.huiyou.model.Students;
 public interface StudentsMapper {
 	List<Object> selStudents(Students students);
 	void delStudents(Students students);
+	void updateStatus(Students students);
 }

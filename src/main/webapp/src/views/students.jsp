@@ -151,7 +151,7 @@
 					layer.open({
 						type: 2, 
 						content: '${pageContext.request.contextPath}/src/views/resultsForm.jsp',
-						area: ['40%', '80%'],
+						area: ['40%', '10%'],
 						shadeClose: true,
 					}); 
 			    }
@@ -170,24 +170,14 @@
 							});
 					      layer.close(index);
 				    	});
-				  	} else if (event === 'edit') {
-				  		layer.prompt({
-				  			formType: 0,
-							value : data.className,
-							title : '请编辑：',
-							area : [ '800px', '350px' ]
-							//自定义文本域宽高
-							}, function( value, index, elem) {
-									table.reload('studentsList', {
-										url : '${pageContext.request.contextPath}/classes/addClass.action',
-										where : {
-											id : data.id,
-											className : value
-										}
-									});
-									layer.close(index);
-							}
-						);
+				  	} else if (event === 'scores') {
+				  		layer.open({
+							type: 2, 
+							title: '学生成绩',
+							content: '${pageContext.request.contextPath}/students/editResults.action?id=' + data.id,
+							area: ['40%', '80%'],
+							shadeClose: true,
+						}); 
 				  	}
 			}); // table.on
 			
@@ -219,6 +209,22 @@
 					ids += item.id + ',';
 				})
 			});
+			
+			// 监听switch按钮切换学生状态
+			form.on('switch(switchTest)', function(data){
+				var elem = data.elem;
+				var data = {
+						status: elem.checked ? 1 : 2,
+						id: elem.id
+					}
+				$.ajax({
+					url: "${pageContext.request.contextPath}/students/updateStatus.action",
+					data: data,
+					type: 'post',
+					success: function(data) { console.log('status修改成功！') }
+	 			})
+				
+			}); 
 		})
 	</script>
 </body>

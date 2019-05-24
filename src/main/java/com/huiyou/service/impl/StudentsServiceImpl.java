@@ -23,4 +23,9 @@ public class StudentsServiceImpl implements StudentsService{
 	public void delStudents(Students students) {
 		studentsMapper.delStudents(students);
 	}
+	
+	@Override
+	public void updateStatus(Students students) {
+		studentsMapper.updateStatus(students);
+	}
 }

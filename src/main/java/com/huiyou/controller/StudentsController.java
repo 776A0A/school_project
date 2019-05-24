@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huiyou.model.DataGridView;
+import com.huiyou.model.Results;
 import com.huiyou.model.Students;
+import com.huiyou.service.ResultsService;
 import com.huiyou.service.StudentsService;
 
 @Controller
@@ -16,6 +19,8 @@ import com.huiyou.service.StudentsService;
 public class StudentsController {
 	@Autowired
 	private StudentsService studentsService;
+	@Autowired
+	private ResultsService resultsService;
 	
 	@RequestMapping("selStudents")
 	@ResponseBody
@@ -52,4 +57,18 @@ public class StudentsController {
 		dgv.setCount(selStudents.size());
 		return dgv;
 	}
+	
+	@RequestMapping("updateStatus")
+	@ResponseBody
+	public void updateStatus(Students students) {
+		studentsService.updateStatus(students);
+	}
+	
+	@RequestMapping("editResults")
+	public String editResults(Results results, Model model) {
+		List<Object> selResults = resultsService.selResults(results);
+		model.addAttribute("results", selResults.get(0));
+		return "editResults";
+	}
+	
 }

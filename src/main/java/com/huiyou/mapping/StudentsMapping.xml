@@ -23,4 +23,8 @@
 		delete from student where id=#{id}
 	</delete>
 	
+	<update id="updateStatus">
+		update student set status=#{status} where id=#{id}
+	</update>
+	
 </mapper>

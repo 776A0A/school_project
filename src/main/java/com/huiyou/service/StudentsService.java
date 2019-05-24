@@ -10,4 +10,6 @@ public interface StudentsService {
 
 	void delStudents(Students students);
 
+	void updateStatus(Students students);
+
 }
