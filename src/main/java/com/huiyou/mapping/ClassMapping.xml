@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huiyou.mapper.ClassMapper">
+
+	<select id="selClass" parameterType="Classes" resultType="Classes">
+		select * from classes
+		<where>
+			<if test="id != 0 and id != null">
+				and id=#{id}
+			</if>
+			<if test="className != null and className != null">
+				and className like concat('%', #{className}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<delete id="delClass" parameterType="Classes">
+		delete from classes where id=#{id}
+	</delete>
+	
+	<update id="updateClass" parameterType="Classes">
+		update classes set className=#{className} where id=#{id}
+	</update>
+</mapper>

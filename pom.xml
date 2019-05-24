@@ -184,7 +184,7 @@
 		</dependency>
 	</dependencies>
   <build>
-    <finalName>Test_2</finalName>
+    <finalName>SchoolProject</finalName>
     <plugins>
 			<plugin>
 				<!--maven的tomcat插件 -->
