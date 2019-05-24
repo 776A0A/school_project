@@ -6,6 +6,10 @@ public class Results {
 	private Integer chinese;
 	private Integer english;
 	private Integer math;
+	private Integer classId;
+	private String studentName;
+	private String className;
+	private String ids;
 	public Integer getId() {
 		return id;
 	}
@@ -36,9 +40,38 @@ public class Results {
 	public void setMath(Integer math) {
 		this.math = math;
 	}
+	
+	public Integer getClassId() {
+		return classId;
+	}
+	public void setClassId(Integer classId) {
+		this.classId = classId;
+	}
+	public String getStudentName() {
+		return studentName;
+	}
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
+	}
+	public String getClassName() {
+		return className;
+	}
+	public void setClassName(String className) {
+		this.className = className;
+	}
+	
+	public String getIds() {
+		return ids;
+	}
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
 	@Override
 	public String toString() {
 		return "Results [id=" + id + ", stuId=" + stuId + ", chinese=" + chinese + ", english=" + english + ", math="
-				+ math + "]";
+				+ math + ", classId=" + classId + ", studentName=" + studentName + ", className=" + className + ", ids="
+				+ ids + "]";
 	}
+	
+	
 }

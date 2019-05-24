@@ -28,4 +28,28 @@ public class ResultsController {
 		dgv.setCount(selResults.size());
 		return dgv;
 	}
+	
+	@RequestMapping("delResults")
+	@ResponseBody
+	public DataGridView delResults(Results results) {
+		System.out.println("来自delResults："+ results);
+		String ids = results.getIds();
+		if (ids != null && ids != "") {
+			String ids1[] = ids.split(",");
+			for (String id : ids1) {
+				Integer i = Integer.parseInt(id);
+				results.setId(i);
+				resultsService.delResults(results);
+			}
+		} else {
+			resultsService.delResults(results);
+		}
+		Results results1 = new Results();
+		List<Object> selResults = resultsService.selResults(results1);
+		DataGridView dgv = new DataGridView();
+		dgv.setData(selResults);
+		dgv.setMsg("批量删除！");
+		dgv.setCount(selResults.size());
+		return dgv;
+	}
 }

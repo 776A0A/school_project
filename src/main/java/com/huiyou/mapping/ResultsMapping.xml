@@ -3,22 +3,19 @@
 <mapper namespace="com.huiyou.mapper.ResultsMapper">
 
 	<select id="selResults" parameterType="Results" resultType="Results">
-		select * from results
+		select results.*, student.name as studentName, classes.className as className
+			from results
+			left join student on results.stuId = student.id
+			left join classes on results.classId = classes.id
 		<where>
-			<if test="id != 0 and id != null">
-				and id=#{id}
+			<if test="classId != 0 and classId != null">
+				and results.classId=#{classId}
 			</if>
 			<if test="stuId != 0 and stuId != null">
 				and stuId=#{stuId}
 			</if>
-			<if test="chinese != null and chinese != ''">
-				and chinese like concat('%', #{chinese}, '%')
-			</if>
-			<if test="english != null and english != ''">
-				and english like concat('%', #{english}, '%')
-			</if>
-			<if test="math != null and math != ''">
-				and math like concat('%', #{math}, '%')
+			<if test="studentName != null and studentName != ''">
+				and student.name like concat('%', #{studentName}, '%')
 			</if>
 		</where>
 	</select>

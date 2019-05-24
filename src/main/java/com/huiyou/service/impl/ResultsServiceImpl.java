@@ -19,4 +19,9 @@ public class ResultsServiceImpl implements ResultsService{
 	public List<Object> selResults(Results results) {
 		return resultsMapper.selResults(results);
 	}
+	
+	@Override
+	public void delResults(Results results) {
+		resultsMapper.delResults(results);
+	}
 }

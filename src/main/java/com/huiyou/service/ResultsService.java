@@ -9,4 +9,6 @@ public interface ResultsService {
 
 	List<Object> selResults(Results results);
 
+	void delResults(Results results);
+
 }

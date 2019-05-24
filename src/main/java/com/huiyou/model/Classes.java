@@ -1,7 +1,5 @@
 package com.huiyou.model;
 
-import java.util.Arrays;
-
 public class Classes {
 	private Integer id;
 	private String className;

@@ -7,4 +7,5 @@ import com.huiyou.model.Results;
 
 public interface ResultsMapper {
 	List<Object> selResults(Results results);
+	void delResults(Results results);
 }
