@@ -18,7 +18,7 @@
 		</div>
 		<div class="layui-input-inline">
 	      <select name="className" id="className">
-	        <option value="">请选择班级名称</option>
+	        <option value="">请选择班级</option>
 	      </select>
 	    </div>
 		<div class="layui-inline">
@@ -133,6 +133,14 @@
 			    			getClassNameList()
 			    		})
 					}
+			    } else if (event === 'add') {
+			    	// 弹出层
+					layer.open({
+						type: 2, 
+						content: '${pageContext.request.contextPath}/src/views/resultsForm.jsp',
+						area: ['40%', '80%'],
+						shadeClose: true,
+					}); 
 			    }
 			    
 			}); // table.on
