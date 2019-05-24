@@ -8,7 +8,7 @@
 			<if test="id != 0 and id != null">
 				and id=#{id}
 			</if>
-			<if test="className != null and className != null">
+			<if test="className != null and className != ''">
 				and className like concat('%', #{className}, '%')
 			</if>
 		</where>
@@ -21,4 +21,8 @@
 	<update id="updateClass" parameterType="Classes">
 		update classes set className=#{className} where id=#{id}
 	</update>
+	
+	<insert id="addClass" parameterType="Classes">
+		insert into classes (className) values(#{className})
+	</insert>
 </mapper>

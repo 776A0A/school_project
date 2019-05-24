@@ -11,5 +11,7 @@ public interface ClassService {
 	void delClass(Classes classes);
 
 	void updateClass(Classes classes);
+
+	void addClass(Classes classes);
 	
 }

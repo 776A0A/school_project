@@ -67,4 +67,18 @@ public class ClassController {
 		dgv.setCount(selClass.size());
 		return dgv;
 	}
+	
+	@RequestMapping("addClass")
+	@ResponseBody
+	public DataGridView addClass(Classes classes) {
+		System.out.println("来自addClass：" + classes);
+		classService.addClass(classes);
+		Classes classes1 = new Classes();
+		List<Object> selClass = classService.selClass(classes1);
+		DataGridView dgv = new DataGridView();
+		dgv.setData(selClass);
+		dgv.setMsg("更新成功！");
+		dgv.setCount(selClass.size());
+		return dgv;
+	}
 }

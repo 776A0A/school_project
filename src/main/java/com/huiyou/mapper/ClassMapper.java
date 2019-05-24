@@ -8,4 +8,5 @@ public interface ClassMapper {
 	List<Object> selClass(Classes classes);
 	void delClass(Classes classes);
 	void updateClass(Classes classes);
+	void addClass(Classes classes);
 }

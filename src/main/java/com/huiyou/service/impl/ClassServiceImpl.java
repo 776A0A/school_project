@@ -26,4 +26,8 @@ public class ClassServiceImpl implements ClassService{
 	public void updateClass(Classes classes) {
 		classMapper.updateClass(classes);
 	}
+	@Override
+	public void addClass(Classes classes) {
+		classMapper.addClass(classes);
+	}
 }

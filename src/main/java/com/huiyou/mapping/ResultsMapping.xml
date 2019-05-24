@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huiyou.mapper.ResultsMapper">
+
+	<select id="selResults" parameterType="Results" resultType="Results">
+		select * from results
+		<where>
+			<if test="id != 0 and id != null">
+				and id=#{id}
+			</if>
+			<if test="stuId != 0 and stuId != null">
+				and stuId=#{stuId}
+			</if>
+			<if test="chinese != null and chinese != ''">
+				and chinese like concat('%', #{chinese}, '%')
+			</if>
+			<if test="english != null and english != ''">
+				and english like concat('%', #{english}, '%')
+			</if>
+			<if test="math != null and math != ''">
+				and math like concat('%', #{math}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<delete id="delResults" parameterType="Results">
+		delete from results where id=#{id}
+	</delete>
+	
+	<update id="updateResults" parameterType="Results">
+		update results set chinese=#{chinese}, english=#{english}, math=#{math} where id=#{id}
+	</update>
+	
+	<insert id="addResults" parameterType="Results">
+		insert into results (chinese, english, math) values(#{className}, #{english}, #{math})
+	</insert>
+</mapper>

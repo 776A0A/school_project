@@ -96,6 +96,20 @@
 			    			layer.close(index);
 			    		})
 					}
+			    } else if(event === 'add') {
+			    	layer.prompt({
+			  			formType: 0,
+						title : '请添加班级名称：',
+						area : [ '800px', '350px' ]
+						//自定义文本域宽高
+						}, function( value, index, elem) {
+								table.reload('classList', {
+									url : '${pageContext.request.contextPath}/classes/addClass.action',
+									where : { className : value }
+								});
+								layer.close(index);
+						}
+					);
 			    }
 			}); // table.on
 			
@@ -120,7 +134,7 @@
 							//自定义文本域宽高
 							}, function( value, index, elem) {
 									table.reload('classList', {
-										url : '${pageContext.request.contextPath}/classes/updateClass.action',
+										url : '${pageContext.request.contextPath}/classes/addClass.action',
 										where : {
 											id : data.id,
 											className : value
