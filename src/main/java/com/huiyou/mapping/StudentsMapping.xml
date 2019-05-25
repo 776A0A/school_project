@@ -3,9 +3,14 @@
 <mapper namespace="com.huiyou.mapper.StudentsMapper">
 
 	<select id="selStudents" parameterType="Students" resultType="Students">
-		select student.*, classes.className as className
+		select student.*, classes.className as className, 
+			   province.name as pName, city.name as cName, area.name as aName
 			from student
 			left join classes on classId = classes.id
+			left join province on student.pid = province.id
+			left join city on student.cid = city.id
+			left join area on student.aid = area.id
+			order by student.classId ASC, student.id ASC
  		<where>
 			<if test="classId != 0 and classId != null">
 				and classId=#{classId}
@@ -43,5 +48,12 @@
 	<select id="getArea" resultType="PCAList" parameterType="PCAList">
 		select * from area where cid=#{cid}
 	</select>
+	
+	<insert id="addStudent">
+		insert into student (name, img, sex, classId,
+							 pid, cid, aid, detailed)
+					values  (#{name}, #{img}, #{sex}, #{classId},
+					 		 #{pid}, #{cid}, #{aid}, #{detailed})
+	</insert>
 	
 </mapper>

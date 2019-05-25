@@ -44,4 +44,9 @@ public class StudentsServiceImpl implements StudentsService{
 	public List<Object> getArea(PCAList pcaList) {
 		return studentsMapper.getArea(pcaList);
 	}
+	
+	@Override
+	public void addStudent(Students students) {
+		studentsMapper.addStudent(students);
+	}
 }

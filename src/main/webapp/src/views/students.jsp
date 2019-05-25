@@ -52,6 +52,7 @@
 	<script src="${pageContext.request.contextPath}/src/layuiadmin/layui/layui.js"></script>
 	
 	<script type="text/javascript">
+	
 		layui.use(['table', 'jquery', 'layer', 'form'], function() {
 			var table = layui.table, $ = layui.jquery, layer = layui.layer, form = layui.form;
 			table.render({
@@ -103,7 +104,10 @@
 						field : 'detailed',
 						title : '详细地址',
 						align : 'center',
-						sort : true
+						sort : true,
+						templet: function(data) {
+							return (data.pName || '') + (data.cName || '') + (data.aName || '') + (data.detailed || '');
+						}
 					},{
 						field : 'time',
 						title : '创建时间',
@@ -173,7 +177,7 @@
 				  	} else if (event === 'scores') {
 				  		layer.open({
 							type: 2, 
-							title: '学生成绩',
+							title: data.name + '的成绩',
 							content: '${pageContext.request.contextPath}/students/editResults.action?stuId=' + data.id,
 							area: ['40%', '60%'],
 							shadeClose: true,

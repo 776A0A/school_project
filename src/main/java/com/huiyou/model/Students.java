@@ -23,6 +23,9 @@ public class Students {
 	private Integer english;
 	private Integer math;
 	private String ids;
+	private String pName;
+	private String cName;
+	private String aName;
 	
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
@@ -126,13 +129,34 @@ public class Students {
 	public void setMath(Integer math) {
 		this.math = math;
 	}
-	
 	public String getIds() {
 		return ids;
 	}
-
 	public void setIds(String ids) {
 		this.ids = ids;
+	}
+	public String getpName() {
+		return pName;
+	}
+
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
+
+	public String getcName() {
+		return cName;
+	}
+
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+
+	public String getaName() {
+		return aName;
+	}
+
+	public void setaName(String aName) {
+		this.aName = aName;
 	}
 
 	@Override
@@ -141,7 +165,7 @@ public class Students {
 				+ ", classId=" + classId + ", status=" + status + ", pid=" + pid + ", cid=" + cid + ", aid=" + aid
 				+ ", detailed=" + detailed + ", createTime=" + createTime + ", time=" + time + ", simpleDateFormat="
 				+ simpleDateFormat + ", className=" + className + ", chinese=" + chinese + ", english=" + english
-				+ ", math=" + math + ", ids=" + ids + "]";
+				+ ", math=" + math + ", ids=" + ids + ", pName=" + pName + ", cName=" + cName + ", aName=" + aName
+				+ "]";
 	}
-	
 }

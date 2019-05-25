@@ -19,4 +19,6 @@ public interface StudentsService {
 
 	List<Object> getArea(PCAList pcaList);
 
+	void addStudent(Students students);
+
 }

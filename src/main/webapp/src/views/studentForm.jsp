@@ -16,15 +16,6 @@
 	.layui-upload-img {
 		width: 30%;
 	}
-	.layui-input.layui-unselect{
-		/* color: grey; */
-	}
-	/* input::placeholder {
-		color: black;
-	} */
-	label.layui-form-label {
-		
-	}
 </style>
 </head>
 <body>
@@ -32,7 +23,7 @@
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">姓名</label>
 	    <div class="layui-input-inline">
-	      <input type="text" name="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+	      <input type="text" name="name" placeholder="请输入姓名" autocomplete="off" class="layui-input" lay-verify="required">
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
@@ -52,10 +43,16 @@
 	  <div class="layui-form-item">
 	  	<label class="layui-form-label">班级</label>
 		<div class="layui-input-inline">
-		  <select name="className" id="className">
+		  <select name="classId" id="classId" lay-verify="required">
 		    <option value="">请选择班级</option>
 		  </select>
 		</div>
+	  </div>
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">详细地址</label>
+	    <div class="layui-input-inline">
+	      <input type="text" name="detailed" placeholder="请输入详细地址" autocomplete="off" class="layui-input">
+	    </div>
 	  </div>
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">选择地区</label>
@@ -95,8 +92,8 @@
 	<script src="${pageContext.request.contextPath}/src/layuiadmin/layui/layui.js"></script>
 	
 	<script>
-		layui.use(['form', 'jquery'], function(){
-		  	var form = layui.form, $ = layui.$;
+		layui.use(['form', 'jquery', 'upload'], function(){
+		  	var form = layui.form, $ = layui.$, upload = layui.upload;
 		    // 当进入页面就开始获取省份列表
 			function getProvince() {
 				$.ajax({
@@ -120,8 +117,11 @@
 			
 			// 获取城市列表
 			form.on('select(selPro)', function(data){
-				$('#cid').html('<option value="" selected>选择所在城市</option>')
-				$('#aid').html('<option value="" selected>选择所在区域</option>')
+				$('#cid').html('')
+				$('#cid').append('<option value="">选择所在城市</option>')
+				$('#aid').html('')
+				$('#aid').append('<option value="">选择所在区域</option>')
+				form.render('select') // 清空后要刷新
 				var pid = data.value;
 				if (!pid) return;
 				else {
@@ -146,7 +146,9 @@
 			  
 			// 获取区域列表
 			form.on('select(selCity)', function(data){
-				$('#aid').html('<option value="">选择所在区域</option>')
+				$('#aid').html('')
+				$('#aid').append('<option value="">选择所在区域</option>')
+				form.render('select')
 				var cid = data.value;
 				if (!cid) return;
 				else {
@@ -180,12 +182,54 @@
 						data.forEach(function(item) {
 							html += '<option value="' + item.id + '">' + item.className + '</option>';
 						})
-						$('#className').append(html);
+						$('#classId').append(html);
 						form.render('select');
 					}
 				})
 			}
 			getClassNameList()
+			
+			var imagePath = "";
+			// 上传图片
+			upload.render({
+			  elem: '#selectImg' //绑定元素
+			  ,url: '${pageContext.request.contextPath}/UploadController/upload.action' //上传接口
+			  ,accept: 'images'
+			  ,exts: 'jpg|png|jpeg'
+			  ,auto: false
+			  ,bindAction: '#upload'
+			  ,choose: function(obj) {
+			  	  // 显示预览，此时尚未上传
+			      obj.preview(function(index, file, result){
+			        $('#preview').attr('src', result); //图片链接（base64）
+			      });
+			  }
+			  ,done: function(res){
+			  	imagePath = res.data[0];
+			  	console.log("上传图片成功！")
+			  }
+			  ,error: function(){ console.log('图片上传失败！') }
+			});
+			
+			// 监听提交
+			form.on('submit(submit)', function(data){
+			  if (imagePath) {
+				  data.field.headImg =  imagePath;
+			  }
+			  console.log("添加admin上传数据：", data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+			  $.ajax({
+					url: "${pageContext.request.contextPath}/students/addStudent.action",
+					data: data.field,
+					type: 'post',
+					success: function(data) {
+						var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+						parent.layer.close(index); //再执行关闭   
+						parent.location.reload();
+					},
+					error: function(err) { console.log("error: ", err); }
+				}) 
+			  return false;
+			});
 			
 		});
 	</script>

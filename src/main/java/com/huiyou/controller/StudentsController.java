@@ -108,4 +108,12 @@ public class StudentsController {
 		dgv.setCount(PCVList.size());
 		return dgv;
 	}
+	
+	@RequestMapping("addStudent") 
+	@ResponseBody
+	public void addStudent(Students students) {
+		studentsService.addStudent(students);
+	}
+	
+	
 }

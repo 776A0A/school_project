@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>学生成绩</title>
+<title>查看编辑学生成绩</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/src/layuiadmin/layui/css/layui.css"
 	media="all">
@@ -64,7 +64,6 @@
 	<script src="${pageContext.request.contextPath}/src/layuiadmin/layui/layui.js"></script>
 	
 	<script>
-		var total = ${results.chinese + results.english + results.math}
 		layui.use(['form', 'jquery'], function(){
 		  	 var form = layui.form, $ = layui.$;
 			  // 监听提交
