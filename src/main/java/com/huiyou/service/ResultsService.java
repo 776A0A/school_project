@@ -11,4 +11,6 @@ public interface ResultsService {
 
 	void delResults(Results results);
 
+	void updateResults(Results results);
+
 }

@@ -174,8 +174,8 @@
 				  		layer.open({
 							type: 2, 
 							title: '学生成绩',
-							content: '${pageContext.request.contextPath}/students/editResults.action?id=' + data.id,
-							area: ['40%', '80%'],
+							content: '${pageContext.request.contextPath}/students/editResults.action?stuId=' + data.id,
+							area: ['40%', '60%'],
 							shadeClose: true,
 						}); 
 				  	}

@@ -29,7 +29,6 @@
 		</div>
 		<div class="layui-btn-group">
 			<button class="layui-btn" lay-event="search">搜索</button>
-			<button class="layui-btn" lay-event="add">添加</button>
 			<button class="layui-btn" lay-event="multiDelete">删除</button>
 		</div>
 	</script>
@@ -133,7 +132,7 @@
 			    			getClassNameList()
 			    		})
 					}
-			    } else if (event === 'add') {
+			    } /* else if (event === 'add') {
 			    	// 弹出层
 					layer.open({
 						type: 2, 
@@ -141,7 +140,7 @@
 						area: ['40%', '80%'],
 						shadeClose: true,
 					}); 
-			    }
+			    } */
 			    
 			}); // table.on
 			
@@ -158,23 +157,13 @@
 					      layer.close(index);
 				    	});
 				  	} else if (event === 'edit') {
-				  		layer.prompt({
-				  			formType: 0,
-							value : data.className,
-							title : '请编辑：',
-							area : [ '800px', '350px' ]
-							//自定义文本域宽高
-							}, function( value, index, elem) {
-									table.reload('classList', {
-										url : '${pageContext.request.contextPath}/classes/addClass.action',
-										where : {
-											id : data.id,
-											className : value
-										}
-									});
-									layer.close(index);
-							}
-						);
+				  		layer.open({
+							type: 2, 
+							title: '学生成绩',
+							content: '${pageContext.request.contextPath}/students/editResults.action?stuId=' + data.stuId,
+							area: ['40%', '60%'],
+							shadeClose: true,
+						}); 
 				  	}
 			}); // table.on
 			

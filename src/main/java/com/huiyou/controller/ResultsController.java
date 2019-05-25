@@ -52,4 +52,12 @@ public class ResultsController {
 		dgv.setCount(selResults.size());
 		return dgv;
 	}
+	
+	@RequestMapping("updateResults")
+	@ResponseBody
+	public Integer updateResults(Results results) {
+		System.out.println("来自updateResults："+ results);
+		resultsService.updateResults(results);
+		return 200;
+	}
 }

@@ -24,4 +24,9 @@ public class ResultsServiceImpl implements ResultsService{
 	public void delResults(Results results) {
 		resultsMapper.delResults(results);
 	}
+	
+	@Override
+	public void updateResults(Results results) {
+		resultsMapper.updateResults(results);
+	}
 }

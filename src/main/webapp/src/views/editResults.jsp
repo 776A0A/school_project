@@ -47,12 +47,12 @@
 	      <input type="number" name="math" value="${results.math}" placeholder="请输入成绩" autocomplete="off" class="layui-input">
 	    </div>
 	  </div>
-	  <div class="layui-form-item">
+	  <!-- <div class="layui-form-item">
 	    <label class="layui-form-label">总分</label>
 	    <div class="layui-input-inline">
 	      <input type="number" name="total" placeholder="" autocomplete="off" class="layui-input" disabled id="total">
 	    </div>
-	  </div>
+	  </div> -->
 	  <div class="layui-form-item">
 	    <div class="layui-input-block">
 	      <button class="layui-btn" lay-submit lay-filter="submit" id="submit">立即提交</button>
@@ -66,20 +66,24 @@
 	<script>
 		var total = ${results.chinese + results.english + results.math}
 		layui.use(['form', 'jquery'], function(){
-		  	var form = layui.form, $ = layui.$;
-		  	$('#total').val(total)
-		  	
-		  	/* 根据分数的变化动态改变总分
-		  	window.addEventListener("input", function(e) {
-				var total = document.querySelector('#total').value;
-				var res = 80 - e.target.value;
-				if (res > 0) {
-					$('#total').val((total - res));
-				} else {
-					$('#total').val((total + res));
-				} 
-				console.log(res)
-			}) */
+		  	 var form = layui.form, $ = layui.$;
+			  // 监听提交
+			 form.on('submit(submit)', function(data){
+				data.field.id = ${results.id};
+			    console.log("更新results的上传数据：", data.field)
+			  	$.ajax({
+					url: "${pageContext.request.contextPath}/results/updateResults.action",
+					data: data.field,
+					type: 'post',
+					success: function(data) {
+						var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+						parent.layer.close(index); //再执行关闭   
+						parent.location.reload();
+					},
+					error: function(err) { console.log("error: ", err); }
+				}) // ajax
+			    return false;
+			  });
 		});
 		
 		

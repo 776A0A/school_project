@@ -66,6 +66,7 @@ public class StudentsController {
 	
 	@RequestMapping("editResults")
 	public String editResults(Results results, Model model) {
+		System.out.println("来自editResults：" + results);
 		List<Object> selResults = resultsService.selResults(results);
 		model.addAttribute("results", selResults.get(0));
 		return "editResults";

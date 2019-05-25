@@ -100,6 +100,7 @@
 			    	layer.prompt({
 			  			formType: 0,
 						title : '请添加班级名称：',
+						shadeClose: true,
 						area : [ '800px', '350px' ]
 						//自定义文本域宽高
 						}, function( value, index, elem) {
@@ -130,6 +131,7 @@
 				  			formType: 0,
 							value : data.className,
 							title : '请编辑：',
+							shadeClose: true,
 							area : [ '800px', '350px' ]
 							//自定义文本域宽高
 							}, function( value, index, elem) {
