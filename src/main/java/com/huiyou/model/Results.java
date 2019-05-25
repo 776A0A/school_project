@@ -69,7 +69,7 @@ public class Results {
 	}
 	
 	public Integer getTotal() {
-		return total;
+		return this.chinese + this.english + this.math;
 	}
 	public void setTotal(Integer total) {
 		this.total = total;

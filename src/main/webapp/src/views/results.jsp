@@ -91,9 +91,6 @@
 						title: '总分',
 						sort : true,
 						align: 'center',
-						templet: function(data) {
-							return data.math + data.chinese + data.english;
-						}
 					},
 					{
 						field : 'edit',
