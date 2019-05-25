@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huiyou.model.DataGridView;
+import com.huiyou.model.PCAList;
 import com.huiyou.model.Results;
 import com.huiyou.model.Students;
 import com.huiyou.service.ResultsService;
@@ -72,4 +73,39 @@ public class StudentsController {
 		return "editResults";
 	}
 	
+	@RequestMapping("getProvince")
+	@ResponseBody
+	public DataGridView getProvince(PCAList pcalist) {
+		System.out.println("来自getProvince");
+		List<Object> PCVList = studentsService.getProvince(pcalist);
+		DataGridView dgv = new DataGridView();
+		dgv.setData(PCVList);
+		dgv.setMsg("查询成功省！");
+		dgv.setCount(PCVList.size());
+		return dgv;
+	}
+	
+	@RequestMapping("getCity")
+	@ResponseBody
+	public DataGridView getCity(PCAList pcalist) {
+		System.out.println("来自getCity");
+		List<Object> PCVList = studentsService.getCity(pcalist);
+		DataGridView dgv = new DataGridView();
+		dgv.setData(PCVList);
+		dgv.setMsg("查询成功市！");
+		dgv.setCount(PCVList.size());
+		return dgv;
+	}
+	
+	@RequestMapping("getArea")
+	@ResponseBody
+	public DataGridView getArea(PCAList pcalist) {
+		System.out.println("来自getArea");
+		List<Object> PCVList = studentsService.getArea(pcalist);
+		DataGridView dgv = new DataGridView();
+		dgv.setData(PCVList);
+		dgv.setMsg("查询成功区！");
+		dgv.setCount(PCVList.size());
+		return dgv;
+	}
 }

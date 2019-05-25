@@ -27,4 +27,21 @@
 		update student set status=#{status} where id=#{id}
 	</update>
 	
+	<select id="getProvince" resultType="PCAList" parameterType="PCAList">
+		select * from province
+		<where>
+			<if test="id != null and id != 0">
+				id=#{id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getCity" resultType="PCAList" parameterType="PCAList">
+		select * from city where pid=#{pid}
+	</select>
+	
+	<select id="getArea" resultType="PCAList" parameterType="PCAList">
+		select * from area where cid=#{cid}
+	</select>
+	
 </mapper>

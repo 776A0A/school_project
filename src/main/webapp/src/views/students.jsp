@@ -150,8 +150,8 @@
 			    } else if (event === 'add') {
 					layer.open({
 						type: 2, 
-						content: '${pageContext.request.contextPath}/src/views/resultsForm.jsp',
-						area: ['40%', '10%'],
+						content: '${pageContext.request.contextPath}/src/views/studentForm.jsp',
+						area: ['100%', '100%'],
 						shadeClose: true,
 					}); 
 			    }

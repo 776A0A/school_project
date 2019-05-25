@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.huiyou.mapper.StudentsMapper;
+import com.huiyou.model.PCAList;
 import com.huiyou.model.Students;
 import com.huiyou.service.StudentsService;
 
@@ -27,5 +28,20 @@ public class StudentsServiceImpl implements StudentsService{
 	@Override
 	public void updateStatus(Students students) {
 		studentsMapper.updateStatus(students);
+	}
+	
+	@Override
+	public List<Object> getProvince(PCAList pcaList) {
+		return studentsMapper.getProvince(pcaList);
+	}
+	
+	@Override
+	public List<Object> getCity(PCAList pcaList) {
+		return studentsMapper.getCity(pcaList);
+	}
+	
+	@Override
+	public List<Object> getArea(PCAList pcaList) {
+		return studentsMapper.getArea(pcaList);
 	}
 }
