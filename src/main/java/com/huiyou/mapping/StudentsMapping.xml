@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.huiyou.mapper.StudentsMapper">
 
-	<select id="selStudents" parameterType="Students" resultType="Students">
+	<select id="selStudents" parameterType="Map" resultType="Students">
 		select student.*, classes.className as className, 
 			   province.name as pName, city.name as cName, area.name as aName
 			from student
@@ -11,6 +11,24 @@
 			left join city on student.cid = city.id
 			left join area on student.aid = area.id
  		<where>
+			<if test="students.classId != 0 and students.classId != null">
+				and student.classId=#{students.classId}
+			</if>
+			<if test="students.id != 0 and students.id != null">
+				and student.id=#{students.id}
+			</if>
+			<if test="students.name != null and students.name != ''">
+				and student.name like concat('%', #{students.name}, '%')
+			</if>
+		</where>
+			order by student.classId, student.id limit #{page.page}, #{page.limit}
+	</select>
+	
+	<select id="count" resultType="Integer">
+	    <!--返回数据数量-->
+		select count(*) from student
+		<!--当带着条件查询时，符合条件的总数自然不一样-->
+		<where>
 			<if test="classId != 0 and classId != null">
 				and classId=#{classId}
 			</if>
@@ -21,7 +39,6 @@
 				and student.name like concat('%', #{name}, '%')
 			</if>
 		</where>
-			order by student.classId ASC, student.id ASC
 	</select>
 	
 	<delete id="delStudents">

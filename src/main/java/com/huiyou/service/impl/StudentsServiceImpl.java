@@ -1,6 +1,7 @@
 package com.huiyou.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ public class StudentsServiceImpl implements StudentsService{
 	private StudentsMapper studentsMapper;
 	
 	@Override
-	public List<Object> selStudents(Students students) {
-		return studentsMapper.selStudents(students);
+	public List<Object> selStudents(Map<String, Object> map) {
+		return studentsMapper.selStudents(map);
 	}
 	
 	@Override
@@ -53,5 +54,9 @@ public class StudentsServiceImpl implements StudentsService{
 	@Override
 	public void updateStudent(Students students) {
 		studentsMapper.updateStudent(students);
+	}
+	
+	public Integer count(Students students) {
+		return studentsMapper.count(students);
 	}
 }

@@ -1,13 +1,14 @@
 package com.huiyou.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.huiyou.model.PCAList;
 import com.huiyou.model.Students;
 
 public interface StudentsService {
 
-	List<Object> selStudents(Students students);
+	List<Object> selStudents(Map<String, Object> map);
 
 	void delStudents(Students students);
 
@@ -22,5 +23,7 @@ public interface StudentsService {
 	void addStudent(Students students);
 
 	void updateStudent(Students students);
+	
+	Integer count(Students students);
 
 }

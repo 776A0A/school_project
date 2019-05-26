@@ -93,7 +93,7 @@
 						align : 'center',
 						templet: function(data) {
 							return '<input type="checkbox"' 
-									+ (data.status === 1? 'checked' : '') 
+									+ (data.status == 1? 'checked' : '') 
 									+ ' id=' + data.id
 									+ ' lay-filter="switchTest" lay-skin="switch" lay-text="在学|休学">';
 						},

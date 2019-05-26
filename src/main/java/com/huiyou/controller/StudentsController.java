@@ -1,6 +1,8 @@
 package com.huiyou.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huiyou.model.DataGridView;
 import com.huiyou.model.PCAList;
+import com.huiyou.model.PageOV;
 import com.huiyou.model.Results;
 import com.huiyou.model.Students;
 import com.huiyou.service.ResultsService;
@@ -25,13 +28,17 @@ public class StudentsController {
 	
 	@RequestMapping("selStudents")
 	@ResponseBody
-	public DataGridView selStudents(Students students) {
+	public DataGridView selStudents(Students students, PageOV pageOV) {
 		System.out.println("来自selStudents：" + students);
-		List<Object> selStudents = studentsService.selStudents(students);
+		pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
+		Map<String, Object> map = new HashMap<>();
+		map.put("students", students);
+		map.put("page", pageOV);
+		List<Object> selStudents = studentsService.selStudents(map);
 		DataGridView dgv = new DataGridView();
 		dgv.setData(selStudents);
-		dgv.setMsg("查询成功！");
-		dgv.setCount(selStudents.size());
+		dgv.setMsg("查询成功！！");
+		dgv.setCount(studentsService.count(students));
 		return dgv;
 	}
 	
@@ -51,7 +58,12 @@ public class StudentsController {
 			studentsService.delStudents(students);
 		}
 		Students students1 = new Students();
-		List<Object> selStudents = studentsService.selStudents(students1);
+		students1.setId(0);
+		Map<String, Object> map = new HashMap<>();
+		PageOV pageOV = new PageOV();
+		map.put("students", students1);
+		map.put("page", pageOV);
+		List<Object> selStudents = studentsService.selStudents(map);
 		DataGridView dgv = new DataGridView();
 		dgv.setData(selStudents);
 		dgv.setMsg("删除成功！");
@@ -118,7 +130,13 @@ public class StudentsController {
 	@RequestMapping("editStudent")
 	public String editStudent(Students students, Model model) {
 		System.out.println("到编辑页面的查询参数：" + students.toString());
-		List<Object> selStudents = studentsService.selStudents(students);
+		PageOV pageOV = new PageOV();
+		Map<String, Object> map = new HashMap<>();
+		map.put("students", students);
+		map.put("page", pageOV);
+		System.out.println("aaaaaaaaa" + map);
+		List<Object> selStudents = studentsService.selStudents(map);
+		System.out.println("bbbbbbbbbbb" + selStudents);
 		model.addAttribute("student", selStudents.get(0));
 		System.out.println("model数据：" + model);
 		return "editStudent";

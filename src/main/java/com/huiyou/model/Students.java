@@ -33,6 +33,10 @@ public class Students {
 		setTime(format);
 	}
 	
+	public Date getCreateTime() {
+		return createTime;
+	}
+
 	public Integer getId() {
 		return id;
 	}
