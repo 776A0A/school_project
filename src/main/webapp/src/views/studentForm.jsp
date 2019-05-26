@@ -51,17 +51,17 @@
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">选择地区</label>
 	    <div class="layui-input-inline">
-	      <select name="pid" lay-verify="required" id="pid" lay-filter="selPro">
+	      <select name="pid" id="pid" lay-filter="selPro">
 	        <option value="">选择所在省份</option>
 	      </select>
 	    </div>
 	    <div class="layui-input-inline">
-	      <select name="cid" lay-verify="required" id="cid"  lay-filter="selCity">
+	      <select name="cid" id="cid"  lay-filter="selCity">
 	        <option value="">选择所在城市</option>
 	      </select>
 	    </div>
 	    <div class="layui-input-inline">
-	      <select name="aid" lay-verify="required" id="aid"  lay-filter="selArea">
+	      <select name="aid" id="aid"  lay-filter="selArea">
 	        <option value="">选择所在区域</option>
 	      </select>
 	    </div>
@@ -213,11 +213,11 @@
 			
 			// 监听提交
 			form.on('submit(submit)', function(data){
-			  if (imagePath) {
-				  data.field.headImg =  imagePath;
-			  }
-			  console.log("添加admin上传数据：", data.field) //当前容器的全部表单字段，名值对形式：{name: value}
-			  $.ajax({
+				if (imagePath) {
+					data.field.img =  imagePath;
+					}
+				console.log("添加admin上传数据：", data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+				$.ajax({
 					url: "${pageContext.request.contextPath}/students/addStudent.action",
 					data: data.field,
 					type: 'post',
@@ -228,7 +228,7 @@
 					},
 					error: function(err) { console.log("error: ", err); }
 				}) 
-			  return false;
+				return false;
 			});
 			
 		});

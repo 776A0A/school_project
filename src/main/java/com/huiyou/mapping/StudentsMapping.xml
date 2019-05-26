@@ -18,7 +18,7 @@
 				and student.id=#{id}
 			</if>
 			<if test="name != null and name != ''">
-				and name like concat('%', #{name}, '%')
+				and student.name like concat('%', #{name}, '%')
 			</if>
 		</where>
 			order by student.classId ASC, student.id ASC
@@ -58,9 +58,9 @@
 	
 	<insert id="addStudent">
 		insert into student (name, img, sex, classId,
-							 pid, cid, aid, detailed)
+							 pid, cid, aid, detailed, status)
 					values  (#{name}, #{img}, #{sex}, #{classId},
-					 		 #{pid}, #{cid}, #{aid}, #{detailed})
+					 		 #{pid}, #{cid}, #{aid}, #{detailed}, #{status})
 	</insert>
 	
 </mapper>

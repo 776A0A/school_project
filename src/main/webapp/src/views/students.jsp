@@ -23,9 +23,6 @@
 	<table id="studentsList" lay-filter="test"></table>
 	
 	<script type="text/html" id="topToolBar">
-		<div class="layui-inline">
-			<input class="layui-input" name="classId" id="classId" placeholder="班级ID" autocomplete="off">
-		</div>
 		<div class="layui-input-inline">
 	      <select name="className" id="className">
 	        <option value="">请选择班级</option>
@@ -131,7 +128,7 @@
 			    	table.reload('studentsList', {
 						url : '${pageContext.request.contextPath}/students/selStudents.action',
 						where : {
-							classId: $('#classId').val() || $('#className').val() || 0,
+							classId: $('#className').val() || 0,
 							id: $('#stuId').val() || 0,
 							name: $('#studentName').val() || null
 						}
