@@ -253,7 +253,7 @@
 			  ,choose: function(obj) {
 			  	  // 显示预览，此时尚未上传
 			      obj.preview(function(index, file, result){
-			        $('#preview').attr('src', result); //图片链接（base64）
+			        $('#preview').attr('src', result).css('display', 'block');; //图片链接（base64）
 			      });
 			  }
 			  ,done: function(res){
@@ -265,12 +265,15 @@
 			
 			// 监听提交
 			form.on('submit(submit)', function(data){
+			  data.field.id = ${student.id};
+			  data.field.img = "${student.img}";
 			  if (imagePath) {
 				  data.field.img =  imagePath;
 			  }
-			  console.log("添加admin上传数据：", data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+			  console.log("添加admin上传数据：", data.field) 
+			  console.log(data.field)
 			  $.ajax({
-					url: "${pageContext.request.contextPath}/students/addStudent.action",
+					url: "${pageContext.request.contextPath}/students/updateStudent.action",
 					data: data.field,
 					type: 'post',
 					success: function(data) {
@@ -279,7 +282,7 @@
 						parent.location.reload();
 					},
 					error: function(err) { console.log("error: ", err); }
-				}) 
+				})
 			  return false;
 			});
 			

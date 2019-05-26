@@ -21,4 +21,6 @@ public interface StudentsService {
 
 	void addStudent(Students students);
 
+	void updateStudent(Students students);
+
 }

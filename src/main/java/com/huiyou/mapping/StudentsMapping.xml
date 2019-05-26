@@ -32,6 +32,13 @@
 		update student set status=#{status} where id=#{id}
 	</update>
 	
+	<update id="updateStudent">
+		update student set img=#{img}, name=#{name}, sex=#{sex}, 
+						   classId=#{classId}, status=#{status}, 
+						   pid=#{pid}, cid=#{cid}, aid=#{aid}, detailed=#{detailed}
+					   where id=#{id}
+	</update>
+	
 	<select id="getProvince" resultType="PCAList" parameterType="PCAList">
 		select * from province
 		<where>

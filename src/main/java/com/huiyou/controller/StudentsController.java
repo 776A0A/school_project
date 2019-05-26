@@ -123,4 +123,12 @@ public class StudentsController {
 		System.out.println("model数据：" + model);
 		return "editStudent";
 	}
+	
+	@RequestMapping("updateStudent")
+	@ResponseBody
+	public Integer updateStudent(Students students) {
+		System.out.println("来自updateStudent：" + students);
+		studentsService.updateStudent(students);
+		return 200;
+	}
 }

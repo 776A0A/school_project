@@ -49,4 +49,9 @@ public class StudentsServiceImpl implements StudentsService{
 	public void addStudent(Students students) {
 		studentsMapper.addStudent(students);
 	}
+	
+	@Override
+	public void updateStudent(Students students) {
+		studentsMapper.updateStudent(students);
+	}
 }

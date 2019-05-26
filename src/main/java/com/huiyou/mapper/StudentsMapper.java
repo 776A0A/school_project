@@ -13,4 +13,5 @@ public interface StudentsMapper {
 	List<Object> getCity(PCAList pcalist);
 	List<Object> getArea(PCAList pcalist);
 	void addStudent(Students students);
+	void updateStudent(Students students);
 }
