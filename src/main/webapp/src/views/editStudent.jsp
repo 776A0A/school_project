@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>添加学生</title>
+<title>学生详情页</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/src/layuiadmin/layui/css/layui.css"
 	media="all">
@@ -23,21 +23,21 @@
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">姓名</label>
 	    <div class="layui-input-inline">
-	      <input type="text" name="name" placeholder="请输入姓名" autocomplete="off" class="layui-input" lay-verify="required">
+	      <input type="text" name="name" value="${student.name}"placeholder="请输入姓名" autocomplete="off" class="layui-input" lay-verify="required">
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">状态</label>
 	    <div class="layui-input-inline">
-	      <input type="radio" name="status" value="1" title="在学" checked>
-	      <input type="radio" name="status" value="2" title="休学">
+	      <input type="radio" name="status" value="1" title="在学" ${student.status == 1 ? 'checked' : ''}>
+	      <input type="radio" name="status" value="2" title="休学" ${student.status == 2 ? 'checked' : ''}>
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">性别</label>
 	    <div class="layui-input-inline">
-	      <input type="radio" name="sex" value="2" title="男" checked>
-	      <input type="radio" name="sex" value="1" title="女">
+	      <input type="radio" name="sex" value="2" title="男" ${student.sex == 2 ? 'checked' : ''}>
+	      <input type="radio" name="sex" value="1" title="女" ${student.sex == 1 ? 'checked' : ''}>
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
@@ -69,7 +69,7 @@
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">详细地址</label>
 	    <div class="layui-input-inline">
-	      <input type="text" name="detailed" placeholder="请输入详细地址" autocomplete="off" class="layui-input">
+	      <input type="text" name="detailed" value="${student.detailed}" placeholder="请输入详细地址" autocomplete="off" class="layui-input">
 	    </div>
 	  </div>
 	  <div class="layui-form-item layui-upload">
@@ -79,7 +79,7 @@
 	  </div>
 	  <div class="layui-upload-list layui-form-item">
 	  	  <label class="layui-form-label"> </label>
-		  <img class="layui-upload-img" id="preview">
+		  <img class="layui-upload-img" id="preview" src="${pageContext.request.contextPath}/${student.img}">
 	  </div>
 	  <div class="layui-form-item">
 	    <div class="layui-input-block">
@@ -92,8 +92,19 @@
 	<script src="${pageContext.request.contextPath}/src/layuiadmin/layui/layui.js"></script>
 	
 	<script>
-		layui.use(['form', 'jquery', 'upload'], function(){
-		  	var form = layui.form, $ = layui.$, upload = layui.upload;
+	
+		var pid = ${student.pid};
+		var cid = ${student.cid};
+		var aid = ${student.aid};
+		var idOfClass = ${student.classId};
+		var address = '${pageContext.request.contextPath}/${student.img}';
+		
+		layui.use(['form', 'jquery', 'upload', 'layer'], function(){
+		  	var form = layui.form, $ = layui.$, upload = layui.upload, layer = layui.layer;
+		  	if (address == '/SchoolProject/') {
+				// 当用户之前未上传头像时，不设置display：none时，会显示一个地址错误的图片，因此将其设置为不显示
+				$('#preview').css('display', 'none')
+			}
 		    // 当进入页面就开始获取省份列表
 			function getProvince() {
 				$.ajax({
@@ -101,17 +112,55 @@
 					data: {},
 					type: 'post',
 					success: function(data) {
+						var data = data.data;
 						var html = '';
-						for (var i = 0; i < data.data.length; i++) {
-							html += "<option value='" 
-								+ data.data[i].id
-								+ "'>" + data.data[i].name 
-								+ "</option>";
-						}
+						data.forEach(function(item, index) {
+							html += '<option value="' + item.id + '"' 
+								+  (pid == item.id ? ' selected>' : '>')
+								+ item.name + '</option>';
+						});
 						$('#pid').append(html);
-						form.render('select') // 数据为动态渲染的时候，需要重新渲染
-					}
-				})
+						form.render('select')
+						
+						if (pid) {
+							$.ajax({
+								url: '${pageContext.request.contextPath}/students/getCity.action',
+								data: { pid: pid },
+								type: 'get',
+								success: function(data) {
+									var data = data.data;
+									var html = '';
+									data.forEach(function(item, index) {
+										html += '<option value="' + item.id + '"'
+											+ (cid == item.id ? ' selected>' : '>')
+											+ item.name + '</option>';
+									});
+									$('#cid').append(html);
+									form.render('select')
+									
+									if (cid) {
+										$.ajax({
+											url: '${pageContext.request.contextPath}/students/getArea.action',
+											data: { cid: cid },
+											type: 'get',
+											success: function(data) {
+												var data = data.data;
+												var html = '';
+												data.forEach(function(item, index) {
+													html += '<option value="' + item.id + '"'
+														+ (aid == item.id ? ' selected>' : '>')
+														+ item.name + '</option>';
+												});
+												$('#aid').append(html);
+												form.render('select')
+											} // success
+										}) // ajax
+									} // if(cid)
+								} // success
+							}) // ajax
+						} // if(pid)
+					} // success
+				}) // ajax
 			}
 			getProvince()
 			
@@ -171,6 +220,7 @@
 				}
 			});
 			
+			
 			// 动态渲染下拉框
 			function getClassNameList() {
 				$.ajax({
@@ -180,7 +230,9 @@
 						var data = data.data;
 						var html = '';
 						data.forEach(function(item) {
-							html += '<option value="' + item.id + '">' + item.className + '</option>';
+							html += '<option value="' + item.id + '"' + 
+								(idOfClass == item.id ? 'selected' : '') + 
+								'>' + item.className + '</option>';
 						})
 						$('#classId').append(html);
 						form.render('select');
@@ -214,7 +266,7 @@
 			// 监听提交
 			form.on('submit(submit)', function(data){
 			  if (imagePath) {
-				  data.field.headImg =  imagePath;
+				  data.field.img =  imagePath;
 			  }
 			  console.log("添加admin上传数据：", data.field) //当前容器的全部表单字段，名值对形式：{name: value}
 			  $.ajax({

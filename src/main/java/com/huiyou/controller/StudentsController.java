@@ -115,5 +115,12 @@ public class StudentsController {
 		studentsService.addStudent(students);
 	}
 	
-	
+	@RequestMapping("editStudent")
+	public String editStudent(Students students, Model model) {
+		System.out.println("到编辑页面的查询参数：" + students.toString());
+		List<Object> selStudents = studentsService.selStudents(students);
+		model.addAttribute("student", selStudents.get(0));
+		System.out.println("model数据：" + model);
+		return "editStudent";
+	}
 }

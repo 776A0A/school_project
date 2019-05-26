@@ -10,7 +10,6 @@
 			left join province on student.pid = province.id
 			left join city on student.cid = city.id
 			left join area on student.aid = area.id
-			order by student.classId ASC, student.id ASC
  		<where>
 			<if test="classId != 0 and classId != null">
 				and classId=#{classId}
@@ -22,6 +21,7 @@
 				and name like concat('%', #{name}, '%')
 			</if>
 		</where>
+			order by student.classId ASC, student.id ASC
 	</select>
 	
 	<delete id="delStudents">

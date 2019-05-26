@@ -182,6 +182,13 @@
 							area: ['40%', '60%'],
 							shadeClose: true,
 						}); 
+				  	} else if (event === 'detail') {
+				  		layer.open({
+							type: 2, 
+							content: '${pageContext.request.contextPath}/students/editStudent.action?id=' + data.id,
+							area: ['100%', '100%'],
+							shadeClose: true,
+						});
 				  	}
 			}); // table.on
 			
