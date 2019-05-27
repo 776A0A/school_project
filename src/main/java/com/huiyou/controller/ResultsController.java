@@ -60,4 +60,20 @@ public class ResultsController {
 		resultsService.updateResults(results);
 		return 200;
 	}
+	
+	@RequestMapping("addResults")
+	@ResponseBody
+	public Integer addResults(Results results) {
+		System.out.println("来自addResults："+ results);
+		Results results1 = new Results();
+		results1.setStuId(results.getStuId());
+		List<Object> res = resultsService.selResults(results1);
+		if (res.size() == 0) {
+			resultsService.addResults(results);			
+		} else {
+			resultsService.updateResults(results);
+		}
+		System.out.println("aaaaaaaaaaaaaaaaaa" + res);
+		return 200;
+	}
 }

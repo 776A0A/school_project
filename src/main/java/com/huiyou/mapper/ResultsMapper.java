@@ -9,4 +9,5 @@ public interface ResultsMapper {
 	List<Object> selResults(Results results);
 	void delResults(Results results);
 	void updateResults(Results results);
+	void addResults(Results results);
 }

@@ -30,36 +30,23 @@
 <body>
 	<form class="layui-form" lay-filter="formTest" method="post" enctype="multipart/form-data">
 	  <div class="layui-form-item">
-	    <label class="layui-form-label">姓名</label>
-	    <div class="layui-input-inline">
-	      <input type="text" name="studentName" placeholder="请输入姓名" autocomplete="off" class="layui-input">
-	    </div>
-	  </div>
-	  <div class="layui-form-item">
 	    <label class="layui-form-label">语文</label>
 	    <div class="layui-input-inline">
-	      <input type="number" name="chinese" placeholder="请输入成绩" autocomplete="off" class="layui-input">
+	      <input type="number" name="chinese" placeholder="请输入成绩" autocomplete="off" class="layui-input" lay-verify="required">
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">英语</label>
 	    <div class="layui-input-inline">
-	      <input type="number" name="english" placeholder="请输入成绩" autocomplete="off" class="layui-input">
+	      <input type="number" name="english" placeholder="请输入成绩" autocomplete="off" class="layui-input" lay-verify="required">
 	    </div>
 	  </div>
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">数学</label>
 	    <div class="layui-input-inline">
-	      <input type="number" name="math" placeholder="请输入成绩" autocomplete="off" class="layui-input">
+	      <input type="number" name="math" placeholder="请输入成绩" autocomplete="off" class="layui-input" lay-verify="required">
 	    </div>
 	  </div>
-	  <div class="layui-form-item">
-	  	<label class="layui-form-label">班级</label>
-		<div class="layui-input-inline">
-		  <select name="className" id="className">
-		    <option value="">请选择班级</option>
-		  </select>
-		</div>
 	  </div>
 	  <div class="layui-form-item">
 	    <div class="layui-input-block">
@@ -74,24 +61,28 @@
 	<script>
 		layui.use(['form', 'jquery'], function(){
 		  	var form = layui.form, $ = layui.$;
-			// 动态渲染下拉框
-			function getClassNameList() {
+		  	console.log(window.top.myData)
+			// 监听提交
+			form.on('submit(submit)', function(data){
+				data.field.stuId = window.top.myData.id;
+				data.field.classId = window.top.myData.classId;
+				console.log("添加admin上传数据：", data.field) //当前容器的全部表单字段，名值对形式：{name: value}
 				$.ajax({
-					url: '${pageContext.request.contextPath}/classes/selClass.action',
-					method: 'get',
+					url: "${pageContext.request.contextPath}/results/addResults.action",
+					data: data.field,
+					type: 'post',
 					success: function(data) {
-						var data = data.data;
-						var html = '';
-						data.forEach(function(item) {
-							html += '<option value="' + item.id + '">' + item.className + '</option>';
-						})
-						$('#className').append(html);
-						form.render('select');
-					}
-				})
-			}
-			getClassNameList()
-			
+						layer.msg('添加成功！');
+						setTimeout(function() {
+							var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+							parent.layer.close(index); //再执行关闭   
+							parent.location.reload();
+						}, 1000)
+					},
+					error: function(err) { console.log("error: ", err); }
+				}) 
+				return false;
+			});
 		});
 	</script>
 </body>

@@ -68,16 +68,19 @@
 		  	 var form = layui.form, $ = layui.$;
 			  // 监听提交
 			 form.on('submit(submit)', function(data){
-				data.field.id = ${results.id};
+				data.field.stuId = ${results.stuId};
 			    console.log("更新results的上传数据：", data.field)
 			  	$.ajax({
 					url: "${pageContext.request.contextPath}/results/updateResults.action",
 					data: data.field,
 					type: 'post',
 					success: function(data) {
-						var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-						parent.layer.close(index); //再执行关闭   
-						parent.location.reload();
+						layer.msg('提交成功！');
+						setTimeout(function() {
+							var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+							parent.layer.close(index); //再执行关闭   
+							parent.location.reload();
+						}, 1000)
 					},
 					error: function(err) { console.log("error: ", err); }
 				}) // ajax

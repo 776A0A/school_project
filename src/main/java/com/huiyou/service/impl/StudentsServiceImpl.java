@@ -17,8 +17,13 @@ public class StudentsServiceImpl implements StudentsService{
 	private StudentsMapper studentsMapper;
 	
 	@Override
-	public List<Object> selStudents(Map<String, Object> map) {
-		return studentsMapper.selStudents(map);
+	public List<Object> selStudentsMap(Map<String, Object> map) {
+		return studentsMapper.selStudentsMap(map);
+	}
+	
+	@Override
+	public List<Object> selStudents(Students students) {
+		return studentsMapper.selStudents(students);
 	}
 	
 	@Override

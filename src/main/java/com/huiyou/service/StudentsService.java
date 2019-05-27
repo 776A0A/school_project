@@ -8,7 +8,9 @@ import com.huiyou.model.Students;
 
 public interface StudentsService {
 
-	List<Object> selStudents(Map<String, Object> map);
+	List<Object> selStudentsMap(Map<String, Object> map);
+	
+	List<Object> selStudents(Students students);
 
 	void delStudents(Students students);
 

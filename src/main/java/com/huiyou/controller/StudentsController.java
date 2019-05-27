@@ -26,15 +26,15 @@ public class StudentsController {
 	@Autowired
 	private ResultsService resultsService;
 	
-	@RequestMapping("selStudents")
+	@RequestMapping("selStudentsMap")
 	@ResponseBody
-	public DataGridView selStudents(Students students, PageOV pageOV) {
+	public DataGridView selStudentsMap(Students students, PageOV pageOV) {
 		System.out.println("来自selStudents：" + students);
 		pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
 		Map<String, Object> map = new HashMap<>();
 		map.put("students", students);
 		map.put("page", pageOV);
-		List<Object> selStudents = studentsService.selStudents(map);
+		List<Object> selStudents = studentsService.selStudentsMap(map);
 		DataGridView dgv = new DataGridView();
 		dgv.setData(selStudents);
 		dgv.setMsg("查询成功！！");
@@ -63,7 +63,7 @@ public class StudentsController {
 		PageOV pageOV = new PageOV();
 		map.put("students", students1);
 		map.put("page", pageOV);
-		List<Object> selStudents = studentsService.selStudents(map);
+		List<Object> selStudents = studentsService.selStudentsMap(map);
 		DataGridView dgv = new DataGridView();
 		dgv.setData(selStudents);
 		dgv.setMsg("删除成功！");
@@ -81,8 +81,12 @@ public class StudentsController {
 	public String editResults(Results results, Model model) {
 		System.out.println("来自editResults：" + results);
 		List<Object> selResults = resultsService.selResults(results);
-		model.addAttribute("results", selResults.get(0));
-		return "editResults";
+		if (selResults.size() == 0) {
+			return "noResults";
+		} else {
+			model.addAttribute("results", selResults.get(0));			
+			return "editResults";
+		}
 	}
 	
 	@RequestMapping("getProvince")
@@ -124,18 +128,14 @@ public class StudentsController {
 	@RequestMapping("addStudent") 
 	@ResponseBody
 	public void addStudent(Students students) {
+		System.out.println("来自addStudent：" + students);
 		studentsService.addStudent(students);
 	}
 	
 	@RequestMapping("editStudent")
 	public String editStudent(Students students, Model model) {
 		System.out.println("到编辑页面的查询参数：" + students.toString());
-		PageOV pageOV = new PageOV();
-		Map<String, Object> map = new HashMap<>();
-		map.put("students", students);
-		map.put("page", pageOV);
-		System.out.println("aaaaaaaaa" + map);
-		List<Object> selStudents = studentsService.selStudents(map);
+		List<Object> selStudents = studentsService.selStudents(students);
 		System.out.println("bbbbbbbbbbb" + selStudents);
 		model.addAttribute("student", selStudents.get(0));
 		System.out.println("model数据：" + model);

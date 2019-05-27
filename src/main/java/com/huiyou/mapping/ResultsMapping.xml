@@ -25,10 +25,11 @@
 	</delete>
 	
 	<update id="updateResults" parameterType="Results">
-		update results set chinese=#{chinese}, english=#{english}, math=#{math} where id=#{id}
+		update results set chinese=#{chinese}, english=#{english}, math=#{math} where stuId=#{stuId}
 	</update>
 	
 	<insert id="addResults" parameterType="Results">
-		insert into results (chinese, english, math) values(#{className}, #{english}, #{math})
+		insert into results (chinese, english, math, stuId, classId) 
+					values(#{chinese}, #{english}, #{math}, #{stuId}, #{classId})
 	</insert>
 </mapper>

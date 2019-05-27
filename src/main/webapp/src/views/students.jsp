@@ -41,9 +41,9 @@
 		</div>
 	</script>
 	<script type="text/html" id="barDemo">
-		<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="scores">成绩</a>
+		<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="addScores">添加成绩</a>
+		<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="scores">成绩</a>
   		<a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
- 		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 	
 	<script src="${pageContext.request.contextPath}/src/layuiadmin/layui/layui.js"></script>
@@ -54,7 +54,7 @@
 			var table = layui.table, $ = layui.jquery, layer = layui.layer, form = layui.form;
 			table.render({
 				elem: '#studentsList',
-				url: '${pageContext.request.contextPath}/students/selStudents.action',
+				url: '${pageContext.request.contextPath}/students/selStudentsMap.action',
 				method: 'post',
 				page: true,
 				toolbar: '#topToolBar',
@@ -126,7 +126,7 @@
 				var event = obj.event;
 			    if (event === 'search') {
 			    	table.reload('studentsList', {
-						url : '${pageContext.request.contextPath}/students/selStudents.action',
+						url : '${pageContext.request.contextPath}/students/selStudentsMap.action',
 						where : {
 							classId: $('#className').val() || 0,
 							id: $('#stuId').val() || 0,
@@ -163,6 +163,7 @@
 			table.on('tool(test)', function(obj){ // test是table原始容器的属性 lay-filter="对应的值"
 				  var data = obj.data; // 获得当前行数据
 				  var event = obj.event; // 获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+				  window.myData = data;
 				  if (event === 'del') {
 					  layer.confirm('确认删除？', function(index){
 						  table.reload('studentsList', {
@@ -184,6 +185,14 @@
 							type: 2, 
 							content: '${pageContext.request.contextPath}/students/editStudent.action?id=' + data.id,
 							area: ['100%', '100%'],
+							shadeClose: true,
+						});
+				  	} else if (event === 'addScores') {
+				  		layer.open({
+							type: 2, 
+							title: '为' + data.name + '添加成绩',
+							content: '${pageContext.request.contextPath}/src/views/resultsForm.jsp',
+							area: ['40%', '60%'],
 							shadeClose: true,
 						});
 				  	}

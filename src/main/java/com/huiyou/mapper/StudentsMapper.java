@@ -7,7 +7,8 @@ import com.huiyou.model.PCAList;
 import com.huiyou.model.Students;
 
 public interface StudentsMapper {
-	List<Object> selStudents(Map<String, Object> map);
+	List<Object> selStudentsMap(Map<String, Object> map);
+	List<Object> selStudents(Students students);
 	void delStudents(Students students);
 	void updateStatus(Students students);
 	List<Object> getProvince(PCAList pcaList);

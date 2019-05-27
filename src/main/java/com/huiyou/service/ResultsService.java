@@ -13,4 +13,6 @@ public interface ResultsService {
 
 	void updateResults(Results results);
 
+	void addResults(Results results);
+
 }
