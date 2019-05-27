@@ -20,6 +20,37 @@
 		</where>
 	</select>
 	
+	<select id="selResultsMap" parameterType="Map" resultType="Results">
+		select results.*, student.name as studentName, classes.className as className
+			from results
+			left join student on results.stuId = student.id
+			left join classes on results.classId = classes.id
+		<where>
+			<if test="results.classId != 0 and results.classId != null">
+				and results.classId=#{results.classId}
+			</if>
+			<if test="results.stuId != 0 and results.stuId != null">
+				and results.stuId=#{results.stuId}
+			</if>
+			<if test="results.studentName != null and results.studentName != ''">
+				and student.name like concat('%', #{results.studentName}, '%')
+			</if>
+		</where>
+		limit #{page.page}, #{page.limit}
+	</select>
+	
+	<select id="count" resultType="Integer" parameterType="Results">
+		select count(*) from results
+		<where>
+			<if test="classId != 0 and classId != null">
+				and classId=#{classId}
+			</if>
+			<if test="stuId != 0 and stuId != null">
+				and stuId=#{stuId}
+			</if>
+		</where>
+	</select>
+	
 	<delete id="delResults" parameterType="Results">
 		delete from results where id=#{id}
 	</delete>

@@ -106,6 +106,8 @@
 		  	if (address == '/SchoolProject/') {
 				// 当用户之前未上传头像时，不设置display：none时，会显示一个地址错误的图片，因此将其设置为不显示
 				$('#preview').css('display', 'none')
+			} else {
+				$('#preview').css('display', 'block');
 			}
 		    // 当进入页面就开始获取省份列表
 			function getProvince() {
@@ -255,7 +257,7 @@
 			  ,choose: function(obj) {
 			  	  // 显示预览，此时尚未上传
 			      obj.preview(function(index, file, result){
-			        $('#preview').attr('src', result).css('display', 'block');; //图片链接（base64）
+			        $('#preview').attr('src', result).css('display', 'block'); //图片链接（base64）
 			      });
 			  }
 			  ,done: function(res){

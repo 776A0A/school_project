@@ -31,7 +31,7 @@
 		</div>
 	</script>
 	<script type="text/html" id="barDemo">
-  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  		<a class="layui-btn layui-btn-xs" lay-event="update">编辑</a>
  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 	
@@ -42,7 +42,7 @@
 			var table = layui.table, $ = layui.jquery, layer = layui.layer, form = layui.form;
 			table.render({
 				elem: '#resultsList',
-				url: '${pageContext.request.contextPath}/results/selResults.action',
+				url: '${pageContext.request.contextPath}/results/selResultsMap.action',
 				method: 'post',
 				page: true,
 				toolbar: '#topToolBar',
@@ -105,7 +105,7 @@
 				var event = obj.event;
 			    if (event === 'search') {
 			    	table.reload('resultsList', {
-						url : '${pageContext.request.contextPath}/results/selResults.action',
+						url : '${pageContext.request.contextPath}/results/selResultsMap.action',
 						where : {
 							classId: $('#className').val() || 0,
 							stuId: $('#stuId').val() || 0,
@@ -117,21 +117,38 @@
 			    	if (ids.length === 0) {
 			    		return;
 			    	} else {
-			    		layer.confirm('确认删除？', function(index) {
+			    		layer.confirm('确认删除？', {
+			    			success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
+			    		}, function(index) {
 			    			table.reload('resultsList', {
 								url: '${pageContext.request.contextPath}/results/delResults.action',
 				    		    where: { ids: ids },
 				    		    page: { curr: 1  }
 							});
-			    			layer.close(index);
-			    			getClassNameList()
+			    			layer.msg('删除成功！');
+						  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
+							setTimeout(function() {
+								location.reload();
+							}, 500)
 			    		})
 					}
 			    } else if (event === 'add') {
 			    	// 弹出层
 					layer.open({
 						type: 2, 
-						content: '${pageContext.request.contextPath}/src/views/resultsForm.jsp',
+						content: '${pageContext.request.contextPath}/src/views/addResults.jsp',
 						area: ['40%', '80%'],
 						shadeClose: true,
 						success: function(layero, index){
@@ -157,14 +174,32 @@
 				  var data = obj.data; // 获得当前行数据
 				  var event = obj.event; // 获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 				  if (event === 'del') {
-					  layer.confirm('确认删除？', function(index){
+					  layer.confirm('确认删除？', {
+			    			success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
+			    		}, function(index){
 						  table.reload('resultsList', {
 								url : '${pageContext.request.contextPath}/results/delResults.action',
 								where : { id: data.id }
 							});
-					      layer.close(index);
+						  	layer.msg('删除成功！');
+						  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
+							setTimeout(function() {
+								location.reload();
+							}, 500)
 				    	});
-				  	} else if (event === 'edit') {
+				  	} else if (event === 'update') {
 				  		layer.open({
 							type: 2, 
 							title: '学生成绩',

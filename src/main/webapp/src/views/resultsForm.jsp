@@ -19,9 +19,6 @@
 	.layui-input.layui-unselect{
 		/* color: grey; */
 	}
-	input::placeholder {
-		color: black;
-	}
 	label.layui-form-label {
 		
 	}

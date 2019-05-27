@@ -1,6 +1,7 @@
 package com.huiyou.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,11 @@ public class ResultsServiceImpl implements ResultsService{
 	}
 	
 	@Override
+	public List<Object> selResultsMap(Map<String, Object> map) {
+		return resultsMapper.selResultsMap(map);
+	}
+	
+	@Override
 	public void delResults(Results results) {
 		resultsMapper.delResults(results);
 	}
@@ -33,5 +39,10 @@ public class ResultsServiceImpl implements ResultsService{
 	@Override
 	public void addResults(Results results) {
 		resultsMapper.addResults(results);
+	}
+	
+	@Override
+	public Integer count(Results results) {
+		return resultsMapper.count(results);
 	}
 }

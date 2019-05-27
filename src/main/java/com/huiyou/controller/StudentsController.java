@@ -26,10 +26,22 @@ public class StudentsController {
 	@Autowired
 	private ResultsService resultsService;
 	
+	@RequestMapping("selStudents")
+	@ResponseBody
+	public DataGridView selStudents(Students students) {
+		System.out.println("来自selStudents：" + students);
+		List<Object> selStudents = studentsService.selStudents(students);
+		DataGridView dgv = new DataGridView();
+		dgv.setData(selStudents);
+		dgv.setMsg("查询成功！！");
+		dgv.setCount(studentsService.count(students));
+		return dgv;
+	}
+	
 	@RequestMapping("selStudentsMap")
 	@ResponseBody
 	public DataGridView selStudentsMap(Students students, PageOV pageOV) {
-		System.out.println("来自selStudents：" + students);
+		System.out.println("来自selStudentsMap：" + students);
 		pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
 		Map<String, Object> map = new HashMap<>();
 		map.put("students", students);

@@ -1,6 +1,8 @@
 package com.huiyou.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huiyou.model.DataGridView;
+import com.huiyou.model.PageOV;
 import com.huiyou.model.Results;
 import com.huiyou.service.ResultsService;
 
@@ -29,9 +32,25 @@ public class ResultsController {
 		return dgv;
 	}
 	
+	@RequestMapping("selResultsMap")
+	@ResponseBody
+	public DataGridView selResultsMap(Results results, PageOV pageOV) {
+		System.out.println("来自selResultsMap："+ results);
+		pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
+		Map<String, Object> map = new HashMap<>();
+		map.put("results", results);
+		map.put("page", pageOV);
+		List<Object> selResults = resultsService.selResultsMap(map);
+		DataGridView dgv = new DataGridView();
+		dgv.setData(selResults);
+		dgv.setMsg("查询成功！！");
+		dgv.setCount(resultsService.count(results));
+		return dgv;
+	}
+	
 	@RequestMapping("delResults")
 	@ResponseBody
-	public DataGridView delResults(Results results) {
+	public Integer delResults(Results results) {
 		System.out.println("来自delResults："+ results);
 		String ids = results.getIds();
 		if (ids != null && ids != "") {
@@ -44,26 +63,19 @@ public class ResultsController {
 		} else {
 			resultsService.delResults(results);
 		}
-		Results results1 = new Results();
-		List<Object> selResults = resultsService.selResults(results1);
-		DataGridView dgv = new DataGridView();
-		dgv.setData(selResults);
-		dgv.setMsg("批量删除！");
-		dgv.setCount(selResults.size());
-		return dgv;
+		return 0;
 	}
 	
 	@RequestMapping("updateResults")
 	@ResponseBody
-	public Integer updateResults(Results results) {
+	public void updateResults(Results results) {
 		System.out.println("来自updateResults："+ results);
 		resultsService.updateResults(results);
-		return 200;
 	}
 	
 	@RequestMapping("addResults")
 	@ResponseBody
-	public Integer addResults(Results results) {
+	public void addResults(Results results) {
 		System.out.println("来自addResults："+ results);
 		Results results1 = new Results();
 		results1.setStuId(results.getStuId());
@@ -73,7 +85,5 @@ public class ResultsController {
 		} else {
 			resultsService.updateResults(results);
 		}
-		System.out.println("aaaaaaaaaaaaaaaaaa" + res);
-		return 200;
 	}
 }
