@@ -10,12 +10,12 @@
 <style>
 	/* 关于图片的显示 
 	.layui-table-cell {
-	     height: 80px!important;
+	     height: 40px!important;
 	     white-space: normal;
 	} */
-	/* .layui-table-cell img {
-		width: 80px;
-	} */
+	.layui-table-cell img {
+		width: 35px;
+	}
 </style>
 <title>学生信息管理页面</title>
 </head>

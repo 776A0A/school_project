@@ -108,8 +108,11 @@
 				    		    where: { ids: ids },
 				    		    page: { curr: 1  }
 							});
-			    			layer.close(index);
-			    			location.reload()
+			    			layer.msg('删除成功！');
+						  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
+							setTimeout(function() {
+								location.reload();
+							}, 500)
 			    		})
 					}
 			    } else if(event === 'add') {
@@ -136,8 +139,11 @@
 								url : '${pageContext.request.contextPath}/classes/addClass.action',
 								where : { className : value }
 							});
-							layer.close(index);
-							location.reload()
+							layer.msg('添加成功！');
+						  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
+							setTimeout(function() {
+								location.reload();
+							}, 500)
 						}
 					);
 			    }
@@ -168,8 +174,11 @@
 								url : '${pageContext.request.contextPath}/classes/delClass.action',
 								where : { id: data.id }
 							});
-					      layer.close(index);
-					      location.reload()
+						  	layer.msg('删除成功！');
+						  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
+							setTimeout(function() {
+								location.reload();
+							}, 500)
 				    	});
 				  	} else if (event === 'update') {
 				  		var index = layer.prompt({
@@ -199,8 +208,11 @@
 												className : value
 											}
 										});
-										layer.close(index);
-										location.reload()
+										layer.msg('更新成功！');
+									  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
+										setTimeout(function() {
+											location.reload();
+										}, 500)
 								}
 							);
 				  	}
