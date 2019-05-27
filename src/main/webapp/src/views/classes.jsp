@@ -30,7 +30,7 @@
 		</div>
 	</script>
 	<script type="text/html" id="barDemo">
-  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  		<a class="layui-btn layui-btn-xs" lay-event="update">编辑</a>
  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 	</script>
 	
@@ -41,7 +41,7 @@
 			var table = layui.table, $ = layui.jquery, layer = layui.layer;
 			table.render({
 				elem: '#classList',
-				url: '${pageContext.request.contextPath}/classes/selClass.action',
+				url: '${pageContext.request.contextPath}/classes/selClassMap.action',
 				method: 'post',
 				page: true,
 				toolbar: '#topToolBar',
@@ -59,7 +59,8 @@
 					{
 						field: 'className',
 						title: '班级名称',
-						align: 'center'
+						align: 'center',
+						sort: true,
 					},
 					{
 						field : 'edit',
@@ -76,7 +77,7 @@
 				var event = obj.event;
 			    if (event === 'search') {
 			    	table.reload('classList', {
-						url: '${pageContext.request.contextPath}/classes/selClass.action',
+						url: '${pageContext.request.contextPath}/classes/selClassMap.action',
 		    		    where: {
 							id: $('#classId').val() || 0,
 		    			    className: $('#className').val() || null
@@ -87,28 +88,56 @@
 			    	if (ids.length === 0) {
 			    		return;
 			    	} else {
-			    		layer.confirm('确认删除？', function(index) {
+			    		layer.confirm('确认删除？', {
+			    			success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
+			    		}, function(index) {
 			    			table.reload('classList', {
 								url: '${pageContext.request.contextPath}/classes/delClass.action',
 				    		    where: { ids: ids },
 				    		    page: { curr: 1  }
 							});
 			    			layer.close(index);
+			    			location.reload()
 			    		})
 					}
 			    } else if(event === 'add') {
-			    	layer.prompt({
+			    	var index = layer.prompt({
 			  			formType: 0,
 						title : '请添加班级名称：',
 						shadeClose: true,
-						area : [ '800px', '350px' ]
-						//自定义文本域宽高
-						}, function( value, index, elem) {
-								table.reload('classList', {
-									url : '${pageContext.request.contextPath}/classes/addClass.action',
-									where : { className : value }
-								});
-								layer.close(index);
+						area : [ '800px', '350px' ],
+						success: function(layero) {
+							// 点击esc关闭弹出层
+						    this.esc = function(event){
+						      if(event.keyCode === 27){
+						        layer.close(index);
+						        return false; //阻止系统默认回车事件
+						      }
+						    };
+						    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						},
+						end: function() {
+							$(document).off('keydown', this.esc);	//解除键盘关闭事件
+						}
+					}, function( value, index, elem) {
+							table.reload('classList', {
+								url : '${pageContext.request.contextPath}/classes/addClass.action',
+								where : { className : value }
+							});
+							layer.close(index);
+							location.reload()
 						}
 					);
 			    }
@@ -119,32 +148,61 @@
 				  var data = obj.data; // 获得当前行数据
 				  var event = obj.event; // 获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 				  if (event === 'del') {
-					  layer.confirm('确认删除？', function(index){
+					  layer.confirm('确认删除？', {
+						  success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
+					    },
+					    function(index){
 						  table.reload('classList', {
 								url : '${pageContext.request.contextPath}/classes/delClass.action',
 								where : { id: data.id }
 							});
 					      layer.close(index);
+					      location.reload()
 				    	});
-				  	} else if (event === 'edit') {
-				  		layer.prompt({
-				  			formType: 0,
-							value : data.className,
-							title : '请编辑：',
-							shadeClose: true,
-							area : [ '800px', '350px' ]
-							//自定义文本域宽高
+				  	} else if (event === 'update') {
+				  		var index = layer.prompt({
+					  			formType: 0,
+								value : data.className,
+								title : '请编辑：',
+								shadeClose: true,
+								area : [ '800px', '350px' ],
+						  		success: function(layero) {
+									// 点击esc关闭弹出层
+								    this.esc = function(event){
+								      if(event.keyCode === 27){
+								        layer.close(index);
+								        return false; //阻止系统默认回车事件
+								      }
+								    };
+								    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+								},
+								end: function() {
+									$(document).off('keydown', this.esc);	//解除键盘关闭事件
+								}
 							}, function( value, index, elem) {
-									table.reload('classList', {
-										url : '${pageContext.request.contextPath}/classes/addClass.action',
-										where : {
-											id : data.id,
-											className : value
-										}
-									});
-									layer.close(index);
-							}
-						);
+										table.reload('classList', {
+											url : '${pageContext.request.contextPath}/classes/updateClass.action',
+											where : {
+												id : data.id,
+												className : value
+											}
+										});
+										layer.close(index);
+										location.reload()
+								}
+							);
 				  	}
 			}); // table.on
 			

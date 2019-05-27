@@ -138,7 +138,21 @@
 			    	if (ids.length === 0) {
 			    		return;
 			    	} else {
-			    		layer.confirm('确认删除？', function(index) {
+			    		layer.confirm('确认删除？', {
+							  success: function(layero, index){
+									// 点击esc关闭弹出层
+								    this.esc = function(event){
+								      if(event.keyCode === 27){
+								        layer.close(index);
+								        return false; //阻止系统默认回车事件
+								      }
+								    };
+								    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+							    },
+							    end: function(){
+							      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+							    }
+						    }, function(index) {
 			    			table.reload('studentsList', {
 								url: '${pageContext.request.contextPath}/students/delStudents.action',
 				    		    where: { ids: ids },
@@ -154,6 +168,19 @@
 						content: '${pageContext.request.contextPath}/src/views/studentForm.jsp',
 						area: ['100%', '100%'],
 						shadeClose: true,
+						success: function(layero, index){
+							// 点击esc关闭弹出层
+						    this.esc = function(event){
+						      if(event.keyCode === 27){
+						        layer.close(index);
+						        return false; //阻止系统默认回车事件
+						      }
+						    };
+						    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+					    },
+					    end: function(){
+					      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+					    }
 					}); 
 			    }
 			    
@@ -165,7 +192,21 @@
 				  var event = obj.event; // 获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 				  window.myData = data;
 				  if (event === 'del') {
-					  layer.confirm('确认删除？', function(index){
+					  layer.confirm('确认删除？', {
+						  success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
+					    }, function(index){
 						  table.reload('studentsList', {
 								url : '${pageContext.request.contextPath}/students/delStudents.action',
 								where : { id: data.id }
@@ -179,6 +220,19 @@
 							content: '${pageContext.request.contextPath}/students/editResults.action?stuId=' + data.id,
 							area: ['40%', '60%'],
 							shadeClose: true,
+							success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
 						}); 
 				  	} else if (event === 'detail') {
 				  		layer.open({
@@ -186,6 +240,19 @@
 							content: '${pageContext.request.contextPath}/students/editStudent.action?id=' + data.id,
 							area: ['100%', '100%'],
 							shadeClose: true,
+							success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
 						});
 				  	} else if (event === 'addScores') {
 				  		layer.open({
@@ -194,6 +261,19 @@
 							content: '${pageContext.request.contextPath}/src/views/resultsForm.jsp',
 							area: ['40%', '60%'],
 							shadeClose: true,
+							success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
 						});
 				  	}
 			}); // table.on

@@ -13,11 +13,8 @@
 	<table id="resultsList" lay-filter="test"></table>
 	
 	<script type="text/html" id="topToolBar">
-		<div class="layui-inline">
-			<input class="layui-input" name="classId" id="classId" placeholder="班级ID" autocomplete="off">
-		</div>
 		<div class="layui-input-inline">
-	      <select name="className" id="className">
+	      <select name="className" id="className" lay-search>
 	        <option value="">请选择班级</option>
 	      </select>
 	    </div>
@@ -29,6 +26,7 @@
 		</div>
 		<div class="layui-btn-group">
 			<button class="layui-btn" lay-event="search">搜索</button>
+			<button class="layui-btn" lay-event="add">添加</button>
 			<button class="layui-btn" lay-event="multiDelete">删除</button>
 		</div>
 	</script>
@@ -109,7 +107,7 @@
 			    	table.reload('resultsList', {
 						url : '${pageContext.request.contextPath}/results/selResults.action',
 						where : {
-							classId: $('#classId').val() || $('#className').val() || 0,
+							classId: $('#className').val() || 0,
 							stuId: $('#stuId').val() || 0,
 							studentName: $('#studentName').val() || null
 						}
@@ -129,15 +127,28 @@
 			    			getClassNameList()
 			    		})
 					}
-			    } /* else if (event === 'add') {
+			    } else if (event === 'add') {
 			    	// 弹出层
 					layer.open({
 						type: 2, 
 						content: '${pageContext.request.contextPath}/src/views/resultsForm.jsp',
 						area: ['40%', '80%'],
 						shadeClose: true,
+						success: function(layero, index){
+							// 点击esc关闭弹出层
+						    this.esc = function(event){
+						      if(event.keyCode === 27){
+						        layer.close(index);
+						        return false; //阻止系统默认回车事件
+						      }
+						    };
+						    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+					    },
+					    end: function(){
+					      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+					    }
 					}); 
-			    } */
+			    } 
 			    
 			}); // table.on
 			
@@ -160,6 +171,19 @@
 							content: '${pageContext.request.contextPath}/students/editResults.action?stuId=' + data.stuId,
 							area: ['40%', '60%'],
 							shadeClose: true,
+							success: function(layero, index){
+								// 点击esc关闭弹出层
+							    this.esc = function(event){
+							      if(event.keyCode === 27){
+							        layer.close(index);
+							        return false; //阻止系统默认回车事件
+							      }
+							    };
+							    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
+						    },
+						    end: function(){
+						      $(document).off('keydown', this.esc);	//解除键盘关闭事件
+						    }
 						}); 
 				  	}
 			}); // table.on

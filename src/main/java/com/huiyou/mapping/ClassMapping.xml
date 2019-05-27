@@ -14,6 +14,31 @@
 		</where>
 	</select>
 	
+	<select id="selClassMap" parameterType="Map" resultType="Classes">
+		select * from classes
+		<where>
+			<if test="classes.id != 0 and classes.id != null">
+				and classes.id=#{classes.id}
+			</if>
+			<if test="classes.className != null and classes.className != ''">
+				and classes.className like concat('%', #{classes.className}, '%')
+			</if>
+		</where>
+		limit #{page.page}, #{page.limit}
+	</select>
+	
+	<select id="count" parameterType="Classes" resultType="Integer">
+		select count(*) from classes
+		<where>
+			<if test="id != 0 and id != null">
+				and id=#{id}
+			</if>
+			<if test="className != null and className != ''">
+				and className like concat('%', #{className}, '%')
+			</if>
+		</where>
+	</select>
+	
 	<delete id="delClass" parameterType="Classes">
 		delete from classes where id=#{id}
 	</delete>

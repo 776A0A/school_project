@@ -1,6 +1,8 @@
 package com.huiyou.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huiyou.model.Classes;
 import com.huiyou.model.DataGridView;
+import com.huiyou.model.PageOV;
 import com.huiyou.service.ClassService;
 
 @Controller
@@ -30,9 +33,25 @@ public class ClassController {
 		return dgv;
 	}
 	
+	@RequestMapping("selClassMap")
+	@ResponseBody
+	public DataGridView selClassMap(Classes classes, PageOV pageOV) {
+		System.out.println("来自selClassMap：" + classes);
+		pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
+		Map<String, Object> map = new HashMap<>();
+		map.put("classes", classes);
+		map.put("page", pageOV);
+		List<Object> selClass = classService.selClassMap(map);
+		DataGridView dgv = new DataGridView();
+		dgv.setData(selClass);
+		dgv.setMsg("查询成功！！");
+		dgv.setCount(classService.count(classes));
+		return dgv;
+	}
+	
 	@RequestMapping("delClass")
 	@ResponseBody
-	public DataGridView delClass(Classes classes) {
+	public void delClass(Classes classes) {
 		System.out.println("来自delClass：" + classes);
 		String ids = classes.getIds();
 		if (ids != null && ids != "") {
@@ -45,40 +64,19 @@ public class ClassController {
 		} else {
 			classService.delClass(classes);
 		}
-		Classes classes1 = new Classes();
-		List<Object> selClasses = classService.selClass(classes1);
-		DataGridView dgv = new DataGridView();
-		dgv.setData(selClasses);
-		dgv.setMsg("删除成功！");
-		dgv.setCount(selClasses.size());
-		return dgv;
 	}
 	
 	@RequestMapping("updateClass")
 	@ResponseBody
-	public DataGridView updateClass(Classes classes) {
+	public void updateClass(Classes classes) {
 		System.out.println("来自uplateClass：" + classes);
 		classService.updateClass(classes);
-		Classes classes1 = new Classes();
-		List<Object> selClass = classService.selClass(classes1);
-		DataGridView dgv = new DataGridView();
-		dgv.setData(selClass);
-		dgv.setMsg("更新成功！");
-		dgv.setCount(selClass.size());
-		return dgv;
 	}
 	
 	@RequestMapping("addClass")
 	@ResponseBody
-	public DataGridView addClass(Classes classes) {
+	public void addClass(Classes classes) {
 		System.out.println("来自addClass：" + classes);
 		classService.addClass(classes);
-		Classes classes1 = new Classes();
-		List<Object> selClass = classService.selClass(classes1);
-		DataGridView dgv = new DataGridView();
-		dgv.setData(selClass);
-		dgv.setMsg("更新成功！");
-		dgv.setCount(selClass.size());
-		return dgv;
 	}
 }

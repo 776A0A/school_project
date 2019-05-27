@@ -67,7 +67,7 @@ public class StudentsController {
 		DataGridView dgv = new DataGridView();
 		dgv.setData(selStudents);
 		dgv.setMsg("删除成功！");
-		dgv.setCount(selStudents.size());
+		dgv.setCount(studentsService.count(students));
 		return dgv;
 	}
 	
