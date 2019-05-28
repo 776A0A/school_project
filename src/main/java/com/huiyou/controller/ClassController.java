@@ -37,11 +37,16 @@ public class ClassController {
 	@ResponseBody
 	public DataGridView selClassMap(Classes classes, PageOV pageOV) {
 		System.out.println("来自selClassMap：" + classes);
-		pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
-		Map<String, Object> map = new HashMap<>();
-		map.put("classes", classes);
-		map.put("page", pageOV);
-		List<Object> selClass = classService.selClassMap(map);
+		List<Object> selClass;
+		if (pageOV.getLimit() != null) {
+			pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
+			Map<String, Object> map = new HashMap<>();
+			map.put("classes", classes);
+			map.put("page", pageOV);
+			selClass = classService.selClassMap(map);
+		} else {
+			selClass = classService.selClass(classes);
+		}
 		DataGridView dgv = new DataGridView();
 		dgv.setData(selClass);
 		dgv.setMsg("查询成功！！");

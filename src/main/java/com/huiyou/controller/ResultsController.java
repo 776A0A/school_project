@@ -36,11 +36,16 @@ public class ResultsController {
 	@ResponseBody
 	public DataGridView selResultsMap(Results results, PageOV pageOV) {
 		System.out.println("来自selResultsMap："+ results);
-		pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
-		Map<String, Object> map = new HashMap<>();
-		map.put("results", results);
-		map.put("page", pageOV);
-		List<Object> selResults = resultsService.selResultsMap(map);
+		List<Object> selResults;
+		if (pageOV.getLimit() != null) {
+			pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
+			Map<String, Object> map = new HashMap<>();
+			map.put("results", results);
+			map.put("page", pageOV);
+			selResults = resultsService.selResultsMap(map);			
+		} else {
+			selResults = resultsService.selResults(results);	
+		}
 		DataGridView dgv = new DataGridView();
 		dgv.setData(selResults);
 		dgv.setMsg("查询成功！！");

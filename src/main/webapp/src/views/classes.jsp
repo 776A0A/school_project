@@ -76,14 +76,19 @@
 			table.on('toolbar(test)', function(obj){
 				var event = obj.event;
 			    if (event === 'search') {
-			    	table.reload('classList', {
-						url: '${pageContext.request.contextPath}/classes/selClassMap.action',
-		    		    where: {
-							id: $('#classId').val() || 0,
-		    			    className: $('#className').val() || null
-		    		    },
-		    		    page: { curr: 1  }
-					});
+			    	if ($('#classId').val() == '' && $('#className').val() == '') {
+			    		location.reload()
+			    	} else {
+				    	table.reload('classList', {
+							url: '${pageContext.request.contextPath}/classes/selClassMap.action',
+			    		    where: {
+								id: $('#classId').val() || 0,
+			    			    className: $('#className').val() || null,
+			    			    limit: null
+			    		    },
+			    		    page: { curr: 1  }
+						});
+			    	} // else
 			    } else if (event === 'multiDelete') {
 			    	if (ids.length === 0) {
 			    		return;

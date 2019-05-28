@@ -39,6 +39,7 @@
 		</where>
 	</select>
 	
+	<!-- 检测重名用 -->
 	<select id="existClassName" resultType="Classes">
 		select * from classes where className=#{className} and id!=#{id}
 	</select>

@@ -125,15 +125,24 @@
 			table.on('toolbar(test)', function(obj){
 				var event = obj.event;
 			    if (event === 'search') {
-			    	table.reload('studentsList', {
-						url : '${pageContext.request.contextPath}/students/selStudentsMap.action',
-						where : {
-							classId: $('#className').val() || 0,
-							id: $('#stuId').val() || 0,
-							name: $('#studentName').val() || null
-						}
-					});
-			    	getClassNameList()
+			    	if ($('#className').val() == '' && 
+		    			$('#stuId').val() == '' && 
+		    			$('#studentName').val() == '') {
+			    		// 未输入任何值点击搜索按钮时，刷新页面，因为如果之前进行过搜索，那么limit为null，刷新以重置limit值
+			    		location.reload()
+			    	} else {
+				    	table.reload('studentsList', {
+							url : '${pageContext.request.contextPath}/students/selStudentsMap.action',
+							where : {
+								classId: $('#className').val() || 0,
+								id: $('#stuId').val() || 0,
+								name: $('#studentName').val() || null,
+								// 当是搜索时，设置为null，对应后台的条件检查 if (pageOV.getLimit() != null)
+								limit: null
+							}
+						});
+				    	getClassNameList()
+			    	} // else
 			    } else if (event === 'multiDelete') {
 			    	if (ids.length === 0) {
 			    		return;

@@ -42,11 +42,18 @@ public class StudentsController {
 	@ResponseBody
 	public DataGridView selStudentsMap(Students students, PageOV pageOV) {
 		System.out.println("来自selStudentsMap：" + students);
-		pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
-		Map<String, Object> map = new HashMap<>();
-		map.put("students", students);
-		map.put("page", pageOV);
-		List<Object> selStudents = studentsService.selStudentsMap(map);
+		List<Object> selStudents;
+		if (pageOV.getLimit() != null) {
+			// 表格渲染时用
+			pageOV.setPage((pageOV.getPage()-1)*pageOV.getLimit());
+			Map<String, Object> map = new HashMap<>();
+			map.put("students", students);
+			map.put("page", pageOV);
+			selStudents = studentsService.selStudentsMap(map);			
+		} else {
+			// 搜索时用
+			selStudents = studentsService.selStudents(students);
+		}
 		DataGridView dgv = new DataGridView();
 		dgv.setData(selStudents);
 		dgv.setMsg("查询成功！！");

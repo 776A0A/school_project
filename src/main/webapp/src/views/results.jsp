@@ -104,15 +104,23 @@
 			table.on('toolbar(test)', function(obj){
 				var event = obj.event;
 			    if (event === 'search') {
-			    	table.reload('resultsList', {
-						url : '${pageContext.request.contextPath}/results/selResultsMap.action',
-						where : {
-							classId: $('#className').val() || 0,
-							stuId: $('#stuId').val() || 0,
-							studentName: $('#studentName').val() || null
-						}
-					});
-			    	getClassNameList()
+			    	if ($('#className').val() == '' && 
+		    			$('#stuId').val() == '' && 
+		    			$('#studentName').val() == '') {
+			    		// 未输入任何值点击搜索按钮时，刷新页面，因为如果之前进行过搜索，那么limit为null，刷新以重置limit值
+			    		location.reload()
+			    	} else {
+				    	table.reload('resultsList', {
+							url : '${pageContext.request.contextPath}/results/selResultsMap.action',
+							where : {
+								classId: $('#className').val() || 0,
+								stuId: $('#stuId').val() || 0,
+								studentName: $('#studentName').val() || null,
+								limit: null
+							}
+						});
+				    	getClassNameList()
+			    	}
 			    } else if (event === 'multiDelete') {
 			    	if (ids.length === 0) {
 			    		return;
