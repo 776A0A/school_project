@@ -39,6 +39,10 @@
 		</where>
 	</select>
 	
+	<select id="existClassName" resultType="Classes">
+		select * from classes where className=#{className} and id!=#{id}
+	</select>
+	
 	<delete id="delClass" parameterType="Classes">
 		delete from classes where id=#{id}
 	</delete>

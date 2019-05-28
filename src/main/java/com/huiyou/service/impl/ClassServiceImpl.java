@@ -42,4 +42,9 @@ public class ClassServiceImpl implements ClassService{
 	public Integer count(Classes classes) {
 		return classMapper.count(classes);
 	}
+	
+	@Override
+	public List<Object> existClassName(Classes classes) {
+		return classMapper.existClassName(classes);
+	}
 }

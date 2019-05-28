@@ -135,17 +135,25 @@
 							$(document).off('keydown', this.esc);	//解除键盘关闭事件
 						}
 					}, function( value, index, elem) {
-							table.reload('classList', {
-								url : '${pageContext.request.contextPath}/classes/addClass.action',
-								where : { className : value }
-							});
-							layer.msg('添加成功！');
-						  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
-							setTimeout(function() {
-								location.reload();
-							}, 500)
-						}
-					);
+							$.ajax({
+								url: '${pageContext.request.contextPath}/classes/addClass.action',
+								// 添加一个id=0，配合查询语句
+								data: { id: 0, className: value },
+								method: 'post',
+								success: function(data) {
+									if (data == 0) {
+										alert("班级已存在！")
+									} else {
+										layer.msg('添加成功！');
+									  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
+										setTimeout(function() {
+											location.reload();
+										}, 500)
+									}
+								}
+							})
+						} // function
+					); //layer.prompt
 			    }
 			}); // table.on
 			
@@ -197,24 +205,32 @@
 								    };
 								    $(document).on('keydown', this.esc); //监听键盘事件，关闭层
 								},
-								end: function() {
+								end: function() { 
 									$(document).off('keydown', this.esc);	//解除键盘关闭事件
 								}
 							}, function( value, index, elem) {
-										table.reload('classList', {
-											url : '${pageContext.request.contextPath}/classes/updateClass.action',
-											where : {
-												id : data.id,
-												className : value
+									// 当你想返回0时，最好用ajax请求，因为使用table。reload时，会因为返回数据的格式不对而使得表格显示返回值异常
+									$.ajax({
+										url: '${pageContext.request.contextPath}/classes/updateClass.action',
+										data: {
+											id : data.id,
+											className : value
+										},
+										method: 'post',
+										success: function(data) {
+											if (data == 0) {
+												alert("班级已存在！")
+											} else {
+												layer.msg('更新成功！');
+											  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
+												setTimeout(function() {
+													location.reload();
+												}, 500)
 											}
-										});
-										layer.msg('更新成功！');
-									  	$('.layui-table-body').css('display', 'none'); // 如果懒得返回数据，则先用这招遮盖一下异常显示，反正要刷新的
-										setTimeout(function() {
-											location.reload();
-										}, 500)
-								}
-							);
+										} // success
+									}) // ajax
+								} // function
+							); // layer.prompt
 				  	}
 			}); // table.on
 			

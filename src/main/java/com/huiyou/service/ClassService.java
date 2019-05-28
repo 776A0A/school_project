@@ -18,5 +18,7 @@ public interface ClassService {
 	Integer count(Classes classes);
 
 	List<Object> selClassMap(Map<String, Object> map);
+
+	List<Object> existClassName(Classes classes);
 	
 }

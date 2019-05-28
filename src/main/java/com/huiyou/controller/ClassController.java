@@ -68,15 +68,29 @@ public class ClassController {
 	
 	@RequestMapping("updateClass")
 	@ResponseBody
-	public void updateClass(Classes classes) {
+	public Integer updateClass(Classes classes) {
 		System.out.println("来自uplateClass：" + classes);
-		classService.updateClass(classes);
+		List<Object> exist = classService.existClassName(classes);
+		System.out.println("aaaaaaaaaaaaaaaaaa" + exist);
+		if (exist.size() > 0) {
+			return 0;
+		} else {
+			classService.updateClass(classes);
+			return 200;
+		}
 	}
 	
 	@RequestMapping("addClass")
 	@ResponseBody
-	public void addClass(Classes classes) {
+	public Integer addClass(Classes classes) {
 		System.out.println("来自addClass：" + classes);
-		classService.addClass(classes);
+		List<Object> exist = classService.existClassName(classes);
+		System.out.println("aaaaaaaaaaaaaaaaaa" + exist);
+		if (exist.size() > 0) {
+			return 0;
+		} else {
+			classService.addClass(classes);
+			return 200;
+		}
 	}
 }

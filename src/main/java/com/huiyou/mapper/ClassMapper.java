@@ -12,4 +12,5 @@ public interface ClassMapper {
 	void updateClass(Classes classes);
 	void addClass(Classes classes);
 	Integer count(Classes classes);
+	List<Object> existClassName(Classes classes);
 }
