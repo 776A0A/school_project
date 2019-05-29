@@ -683,8 +683,8 @@ private String time;
 private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-		String format = simpleDateFormat.format(createTime);
-		setTime(format);
-	}
-
+    this.createTime = createTime;
+    String format = simpleDateFormat.format(createTime);
+    setTime(format);
+}
+```
